@@ -1,13 +1,54 @@
 <script setup lang="ts">
+    import { ref } from "vue";
     import { RouterLink, RouterView } from "vue-router";
     import HelloWorld from "./components/HelloWorld.vue";
+    import router from "./router";
+import config from "./config";
+import ppCLient from "./ppClient";
+
+    function goTo(route: string) {
+        router.push(route);
+    }
+
+    let broj = 10;
+
+    const countRef = ref(0);
+    const email = ref("ramiz@gmail.com");
+    const password = ref("Ramiz@123");
+
+    function count() {
+        // countRef.value = countRef.value + 1;
+        broj = broj + 1;
+        console.log("broj", broj);
+        
+    }
+
+    function login() {
+        ppCLient.auth.login(email.value, password.value);
+    }
+
+    function makeInstructor() {
+        ppCLient.instructorAPI.makeInstructor(email.value);
+    }
+
+    function removeInstructor() {
+        ppCLient.instructorAPI.removeInstructor(email.value);
+    }
+
+    function doubleCount() {
+        countRef.value = countRef.value * 2;
+    }
+
+    function idk() {
+        // config.apiBaseURL
+    }
 </script>
 
 <template>
-    <header>
+    <!-- <header>
         <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
-        <div class="wrapper">
+        <div class="wrapper" @click="goTo('bro')">
             <HelloWorld msg="You did it!" />
 
             <nav>
@@ -17,10 +58,38 @@
         </div>
     </header>
 
-    <RouterView />
+    <RouterView /> -->
+
+    <p>counter {{ countRef }}</p>
+    <p>{{ broj }}</p>
+    <p>{{ config.apiBaseURL }}</p>
+
+    <div class="button" @click="login">
+        Dugme
+    </div>
+
+    <div @click="makeInstructor">
+        Make Instructor
+    </div>
+
+    <div @click="removeInstructor">
+        Remove Instructor
+    </div>
+
+    <input type="text" v-model="email">
+    <input type="text" v-model="password">
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+
+    .button {
+        background-color: red;
+        width: 100px;
+        height: 40px;
+
+        
+    }
+
     header {
         line-height: 1.5;
         max-height: 100vh;
