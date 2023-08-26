@@ -7,11 +7,17 @@ export default class AuthApi {
         this.axios = axios;
     }
 
-    async login(username: string, password: string) {
-        const response = await this.axios.post('/User/LogIn', { username, password });
+    async login(email: string, password: string) {
+        const response = await this.axios.post('/User/LogIn', { email, password });
 
-        console.log(response);
-        
+        this.setSession(response.data);
+        console.log(response.data);
+    }
+
+    async setSession(token: string) {
+        // store token as session in localstorage
+        localStorage.setItem('token', token);
+        this.axios.defaults.headers.common['Authorization'] = `bearer ${token}`;
     }
 
     logout() {
