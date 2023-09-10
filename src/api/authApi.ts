@@ -1,5 +1,13 @@
 import { useStore } from "@/stores/store";
 import { type AxiosInstance } from "axios";
+import Cookies from "js-cookie";
+import jwt_decode, { type JwtPayload } from "jwt-decode";
+
+export interface IUserData {
+    email: string;
+    firstName: string;
+    lastName: string;
+}
 
 export default class AuthApi {
     axios: AxiosInstance;
@@ -19,9 +27,13 @@ export default class AuthApi {
     }
 
     setSession(token: string) {
-        // store token as session in localstorage
-        localStorage.setItem("token", token);
-        this.axios.defaults.headers.common["Authorization"] = `bearer ${token}`;
+        const tokenDecoded: JwtPayload = jwt_decode(token);
+
+        Cookies.set("token", token, {
+            expires: new Date((tokenDecoded.exp as number) * 1000),
+        });
+
+        this.setHeaders(token);
     }
 
     logout() {
@@ -32,7 +44,11 @@ export default class AuthApi {
         return await this.axios.post("/User/Register", { username, password });
     }
 
-    async requestUserData() {
+    setHeaders(token: string) {
+        this.axios.defaults.headers.common["Authorization"] = `bearer ${token}`;
+    }
+
+    async requestUserData(): Promise<IUserData> {
         const response = await this.axios.get("/User/Data");
 
         const store = useStore();

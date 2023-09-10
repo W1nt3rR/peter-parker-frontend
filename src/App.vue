@@ -1,4 +1,7 @@
 <template>
+    <div class="userInfo">
+        {{ store.user }}
+    </div>
     <div
         class="button"
         @click="login"
@@ -24,6 +27,9 @@
     import { ref } from "vue";
     import router from "./router";
     import ppCLient from "./ppClient";
+    import { useStore } from "./stores/store";
+
+    const store = useStore();
 
     function goTo(route: string) {
         router.push(route);
