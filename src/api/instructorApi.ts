@@ -1,4 +1,4 @@
-import { type AxiosInstance } from 'axios';
+import { type AxiosInstance } from "axios";
 
 export default class InstructorApi {
     axios: AxiosInstance;
@@ -8,14 +8,14 @@ export default class InstructorApi {
     }
 
     async makeInstructor(email: string) {
-        await this.axios.post('/User/MakeInstructor', {
-            Email: email
+        await this.axios.post("/User/MakeInstructor", {
+            Email: email,
         });
     }
 
     async removeInstructor(email: string) {
-        await this.axios.post('/User/RevokeInstructor', {
-            Email: email
+        await this.axios.post("/User/RevokeInstructor", {
+            Email: email,
         });
     }
 }

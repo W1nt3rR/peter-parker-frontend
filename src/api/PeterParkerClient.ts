@@ -3,9 +3,7 @@ import InstructorApi from "./instructorApi";
 import server from "./server";
 import { type AxiosInstance } from "axios";
 
-
 export default class PeterParkerClient {
-
     axios: AxiosInstance;
     auth: AuthApi;
     instructorAPI: InstructorApi;
@@ -17,9 +15,8 @@ export default class PeterParkerClient {
     }
 
     init() {
+        localStorage.getItem("token");
         // get token from cookies
         // set token in axios header
-
     }
-
 }
