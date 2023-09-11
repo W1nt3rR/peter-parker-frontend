@@ -3,38 +3,24 @@
         <label>{{ label }}</label>
         <input
             type="text"
-            v-model="inputText"
+            v-model="modelValue"
             :placeholder="placeholder"
-            @input="emitText"
         />
     </div>
 </template>
 
 <script setup lang="ts">
-    import { ref } from "vue";
-
     // Interfaces
     interface Props {
-        modelValue: string;
         label: string;
         placeholder?: string;
     }
 
+    // Model
+    const modelValue = defineModel<string>();
+
     // Props
-    const props = defineProps<Props>();
-
-    // Emits
-    const emit = defineEmits<{
-        update: [value: string];
-    }>();
-
-    // Data
-    const inputText = ref<string>("");
-
-    // Functions
-    function emitText() {
-        emit("update", inputText.value);
-    }
+    defineProps<Props>();
 </script>
 
 <style scoped lang="scss">
