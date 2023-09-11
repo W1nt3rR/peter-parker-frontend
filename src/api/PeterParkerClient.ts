@@ -1,5 +1,5 @@
 import AuthApi from "./authApi";
-import InstructorApi from "./instructorApi";
+import InspectorApi from "./inspectorApi";
 import server from "./server";
 import { type AxiosInstance } from "axios";
 import Cookies from "js-cookie";
@@ -7,12 +7,12 @@ import Cookies from "js-cookie";
 export default class PeterParkerClient {
     axios: AxiosInstance;
     auth: AuthApi;
-    instructorAPI: InstructorApi;
+    inspectorAPI: InspectorApi;
 
     constructor() {
         this.axios = server;
         this.auth = new AuthApi(this.axios);
-        this.instructorAPI = new InstructorApi(this.axios);
+        this.inspectorAPI = new InspectorApi(this.axios);
     }
 
     init() {

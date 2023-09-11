@@ -9,9 +9,9 @@
         Dugme
     </div>
 
-    <div @click="makeInstructor">Make Instructor</div>
+    <div @click="makeInspector">Make Inspector</div>
 
-    <div @click="removeInstructor">Remove Instructor</div>
+    <div @click="removeInspector">Remove Inspector</div>
 
     <input
         type="text"
@@ -42,12 +42,12 @@
         ppCLient.auth.login(email.value, password.value);
     }
 
-    function makeInstructor() {
-        ppCLient.instructorAPI.makeInstructor(email.value);
+    function makeInspector() {
+        ppCLient.inspectorAPI.makeInspector(email.value);
     }
 
-    function removeInstructor() {
-        ppCLient.instructorAPI.removeInstructor(email.value);
+    function removeInspector() {
+        ppCLient.inspectorAPI.makeInspector(email.value);
     }
 </script>
 

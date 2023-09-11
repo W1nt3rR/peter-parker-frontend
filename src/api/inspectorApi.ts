@@ -1,20 +1,20 @@
 import { type AxiosInstance } from "axios";
 
-export default class InstructorApi {
+export default class InspectorApi {
     axios: AxiosInstance;
 
     constructor(axios: AxiosInstance) {
         this.axios = axios;
     }
 
-    async makeInstructor(email: string) {
-        await this.axios.post("/User/MakeInstructor", {
+    async makeInspector(email: string) {
+        await this.axios.post("/User/MakeInspector", {
             Email: email,
         });
     }
 
-    async removeInstructor(email: string) {
-        await this.axios.post("/User/RevokeInstructor", {
+    async removeInspector(email: string) {
+        await this.axios.post("/User/RevokeInspector", {
             Email: email,
         });
     }
