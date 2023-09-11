@@ -5,10 +5,12 @@ enum EErrors {
 }
 
 export default class ErrorHandler {
+    error: any;
     backendErrorMessage: string;
     message: string;
 
     constructor(error: any, message: EErrors) {
+        this.error = error;
         this.backendErrorMessage = error.response.data;
         this.message = message;
 
@@ -18,6 +20,6 @@ export default class ErrorHandler {
     }
 
     printError() {
-        console.log("ERROR", this.message, this.backendErrorMessage);
+        console.log(this.message, this.backendErrorMessage, this.error);
     }
 }
