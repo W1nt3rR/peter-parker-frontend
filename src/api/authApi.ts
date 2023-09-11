@@ -9,6 +9,14 @@ export interface IUserData {
     lastName: string;
 }
 
+export interface IRegisterData {
+    email: string;
+    password: string;
+    passwordConfirmation: string;
+    firstName: string;
+    lastName: string;
+}
+
 export default class AuthApi {
     axios: AxiosInstance;
 
@@ -40,8 +48,14 @@ export default class AuthApi {
         // return this.axios.post('/auth/logout');
     }
 
-    async register(username: string, password: string) {
-        return await this.axios.post("/User/Register", { username, password });
+    async register(registerData: IRegisterData) {
+        const response = await this.axios.post("/User/Register", registerData);
+
+        console.log(response.data);
+        
+        this.setSession(response.data);
+
+        await this.requestUserData();
     }
 
     setHeaders(token: string) {
