@@ -2,14 +2,23 @@ $mainColor: #690069;
 $dangerColor: #690000;
 $secondaryColor: #696969;
 
-$buttonPrimaryColor: rgba($mainColor, 0.6);
-$buttonPrimaryColorHover: rgba($mainColor, 0.8);
+// Buttons
+// Primary
+$buttonPrimaryColor: rgba($mainColor, 0.5);
+$buttonPrimaryColorHover: rgba($mainColor, 0.7);
 $buttonPrimaryColorActive: rgba($mainColor, 1);
 
-$buttonSecondaryColor: rgba($secondaryColor, 0.6);
-$buttonSecondaryColorHover: rgba($secondaryColor, 0.8);
+// Secondary
+$buttonSecondaryColor: rgba($secondaryColor, 0.5);
+$buttonSecondaryColorHover: rgba($secondaryColor, 0.7);
 $buttonSecondaryColorActive: rgba($secondaryColor, 1);
 
-$buttonDangerColor: rgba($dangerColor, 0.6);
-$buttonDangerColorHover: rgba($dangerColor, 0.8);
+// Danger
+$buttonDangerColor: rgba($dangerColor, 0.5);
+$buttonDangerColorHover: rgba($dangerColor, 0.7);
 $buttonDangerColorActive: rgba($dangerColor, 1);
+
+// Input
+$inputBackgroundColor: rgba($mainColor, 0.4);
+$inputBackgroundColorHover: rgba($mainColor, 0.6);
+$inputBackgroundColorFocus: rgba($mainColor, 0.8);

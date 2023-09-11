@@ -38,8 +38,14 @@
 </script>
 
 <style scoped lang="scss">
+    @import "@/sass/includes";
+
     .input-component {
         width: 100%;
+
+        label {
+            color: white;
+        }
 
         input {
             width: 100%;
@@ -51,7 +57,16 @@
 
             padding: 0 10px;
 
-            background-color: #505050;
+            color: white;
+            background-color: $inputBackgroundColor;
+
+            &:hover {
+                background-color: $inputBackgroundColorHover;
+            }
+
+            &:focus {
+                background-color: $inputBackgroundColorFocus;
+            }
         }
     }
 </style>
