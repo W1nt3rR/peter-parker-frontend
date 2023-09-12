@@ -35,7 +35,7 @@
     async function login() {
         try {
             await ppCLient.auth.login(email.value, password.value);
-            router.push("/home");
+            router.push("/");
         } catch (error) {
             // TODO: Handle error
         }
