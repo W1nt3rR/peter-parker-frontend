@@ -1,10 +1,13 @@
 import config, { EEnvironment } from "@/config";
 
-enum EErrors {
+export enum EErrors {
     AUTH_ERROR = "Authentication error",
+    REGISTRATION_ERROR = "Registration error",
+    LOGIN_ERROR = "Login error",
+    NO_REFRESH_TOKEN = "No refresh token",
 }
 
-export default class ErrorHandler {
+export default class PPException {
     error: any;
     backendErrorMessage: string;
     message: string;

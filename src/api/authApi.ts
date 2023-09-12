@@ -1,7 +1,8 @@
+import config from "@/config";
+import PPException, { EErrors } from "@/lib/PPException";
 import { useStore } from "@/stores/store";
-import { type AxiosInstance } from "axios";
+import axios, { type AxiosInstance } from "axios";
 import Cookies from "js-cookie";
-import jwt_decode, { type JwtPayload } from "jwt-decode";
 
 export interface IUserData {
     email: string;
@@ -17,31 +18,35 @@ export interface IRegisterData {
     lastName: string;
 }
 
+export interface IAuthTokens {
+    token: string;
+    refreshToken: string;
+}
+
 export default class AuthApi {
     axios: AxiosInstance;
+    refreshToken: string | null = null;
 
     constructor(axios: AxiosInstance) {
         this.axios = axios;
     }
 
     async login(email: string, password: string) {
-        const response = await this.axios.post("/User/LogIn", { email, password });
+        try {
+            const response = await this.axios.post("/User/LogIn", { email, password });
 
-        this.setSession(response.data);
+            this.setTokens(response.data as IAuthTokens);
 
-        await this.requestUserData();
-
-        console.log(response.data);
+            await this.requestUserData();
+        } catch (error) {
+            throw new PPException(error, EErrors.LOGIN_ERROR);
+        }
     }
 
-    setSession(token: string) {
-        const tokenDecoded: JwtPayload = jwt_decode(token);
-
-        Cookies.set("token", token, {
-            expires: new Date((tokenDecoded.exp as number) * 1000),
+    storeRefreshToken(refreshToken: string) {
+        Cookies.set("refresh-token", refreshToken, {
+            expires: new Date().setDate(new Date().getDate() + 7),
         });
-
-        this.setHeaders(token);
     }
 
     logout() {
@@ -49,26 +54,53 @@ export default class AuthApi {
     }
 
     async register(registerData: IRegisterData) {
-        const response = await this.axios.post("/User/Register", registerData);
+        try {
+            const response = await this.axios.post("/User/Register", registerData);
 
-        console.log(response.data);
-        
-        this.setSession(response.data);
+            this.setTokens(response.data as IAuthTokens);
 
-        await this.requestUserData();
+            await this.requestUserData();
+        } catch (error) {
+            throw new PPException(error, EErrors.REGISTRATION_ERROR);
+        }
     }
 
-    setHeaders(token: string) {
-        this.axios.defaults.headers.common["Authorization"] = `bearer ${token}`;
+    setTokens(tokens: IAuthTokens) {
+        this.refreshToken = tokens.refreshToken;
+        this.setAuthHeader(tokens.token);
+        this.storeRefreshToken(tokens.refreshToken);
+    }
+
+    setAuthHeader(accessToken: string) {
+        this.axios.defaults.headers.common["Authorization"] = `bearer ${accessToken}`;
+    }
+
+    async requestNewTokens() {
+        if (!this.refreshToken) {
+            throw new PPException(null, EErrors.NO_REFRESH_TOKEN);
+        }
+
+        try {
+            const response = await axios.post(`${config.apiBaseURL}/User/TokenRefresh`, null, {
+                headers: {
+                    "X-Pp-Refresh-Token": this.refreshToken,
+                },
+            });
+
+            this.setTokens(response.data as IAuthTokens);
+
+            return response.data as IAuthTokens;
+        } catch (error) {
+            // TODO: logout user if refresh fails
+        }
     }
 
     async requestUserData(): Promise<IUserData> {
         const response = await this.axios.get("/User/Data");
 
+        // Store user data in store
         const store = useStore();
         store.user = response.data;
-
-        console.log("USER", response.data);
 
         return response.data;
     }
