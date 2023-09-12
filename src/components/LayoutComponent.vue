@@ -2,6 +2,7 @@
     <div id="layout">
         <nav>
             <div>{{ store.user }}</div>
+            <AvatarComponent />
         </nav>
         <slot></slot>
     </div>
@@ -9,6 +10,9 @@
 
 <script setup lang="ts">
     import { useStore } from "@/stores/store";
+
+    // Components
+    import AvatarComponent from "./AvatarComponent.vue";
 
     const store = useStore();
 </script>
@@ -22,8 +26,11 @@
         nav {
             background-color: #333;
             color: #fff;
-            padding: 1rem;
+            padding: 0.75rem;
             height: 4rem;
+
+            display: flex;
+            justify-content: space-between;
         }
     }
 </style>
