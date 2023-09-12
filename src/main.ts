@@ -17,7 +17,7 @@ app.use(router);
         await ppClient.init();
         router.push("/");
     } catch (error) {
-        router.push("/login");
+        ppClient.auth.logout();
     }
     app.mount("#app");
 })();

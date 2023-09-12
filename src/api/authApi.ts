@@ -1,5 +1,6 @@
 import config from "@/config";
 import PPException, { EErrors } from "@/lib/PPException";
+import router from "@/router";
 import { useStore } from "@/stores/store";
 import axios, { type AxiosInstance } from "axios";
 import Cookies from "js-cookie";
@@ -50,7 +51,9 @@ export default class AuthApi {
     }
 
     logout() {
-        // return this.axios.post('/auth/logout');
+        Cookies.remove("refresh-token");
+        this.refreshToken = null;
+        router.push("/login");
     }
 
     async register(registerData: IRegisterData) {
@@ -91,7 +94,7 @@ export default class AuthApi {
 
             return response.data as IAuthTokens;
         } catch (error) {
-            // TODO: logout user if refresh fails
+            this.logout();
         }
     }
 
