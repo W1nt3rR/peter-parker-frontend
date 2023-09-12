@@ -12,6 +12,12 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 
-ppClient.init();
-
-app.mount("#app");
+(async () => {
+    try {
+        await ppClient.init();
+        router.push("/");
+    } catch (error) {
+        router.push("/login");
+    }
+    app.mount("#app");
+})();
