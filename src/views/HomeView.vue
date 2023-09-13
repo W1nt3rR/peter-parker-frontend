@@ -38,10 +38,12 @@
         console.log("Map", map.value);
 
         // Example create event to get geojson
-        map.value?.on("pm:create", (e) => {
+        map.value?.on("pm:create", onCreated);
+
+        function onCreated(e: any) {
             console.log(e);
             const geojson = e.layer.toGeoJSON();
-        });
+        }
 
         // Example zone data
         const arrayOfJsons = [
@@ -94,7 +96,7 @@
         // Example zone rendering with click event
         arrayOfJsons.forEach((zone) => {
             const zoneLayer = L.geoJSON(zone.geoJson, zone.style).addTo(map.value);
-            zoneLayer.on("click", (e) => {
+            zoneLayer.on("click", (e: MouseEvent) => {
                 console.log(zone.name, e);
             });
         });
