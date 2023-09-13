@@ -1,6 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
-
-import authMiddleware from "@/router/middlewares/authMiddleware";
+import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from "vue-router";
 
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
@@ -14,7 +12,7 @@ const router = createRouter({
             name: "home",
             component: HomeView,
             meta: {
-                middleware: [authMiddleware],
+                authRequired: true,
             },
         },
         {
@@ -28,6 +26,18 @@ const router = createRouter({
             component: RegisterView,
         },
     ],
+});
+
+router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+    if (to.matched.some((record) => record.meta.authRequired)) {
+        if (!localStorage.getItem("refresh-token")) {
+            next({ name: "login" });
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
 });
 
 export default router;
