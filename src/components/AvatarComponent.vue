@@ -46,7 +46,6 @@
     }
 
     function closeDropdown() {
-        console.log("closeDropdown");
         dropdownActive.value = false;
     }
 
