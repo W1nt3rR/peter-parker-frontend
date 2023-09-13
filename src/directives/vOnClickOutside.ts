@@ -12,4 +12,4 @@ const vOnClickOutside = {
     },
 };
 
-export default vOnClickOutside
+export default vOnClickOutside;
