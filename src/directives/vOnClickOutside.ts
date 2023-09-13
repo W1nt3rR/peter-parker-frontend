@@ -1,14 +1,21 @@
+import { type DirectiveBinding } from "vue";
+type FocusableElement = HTMLInputElement | HTMLTextAreaElement;
+
+type ClickOutsideElement = FocusableElement & {
+    clickOutsideEvent: EventListener;
+};
+
 const vOnClickOutside = {
-    beforeMount(el, binding) {
-        el.clickOutsideEvent = function (event) {
-            if (!(el == event.target || el.contains(event.target))) {
+    beforeMount(element: ClickOutsideElement, binding: DirectiveBinding) {
+        element.clickOutsideEvent = (event: Event) => {
+            if (!(element == event.target || element.contains(event.target as Node))) {
                 binding.value(event);
             }
         };
-        document.body.addEventListener("click", el.clickOutsideEvent);
+        document.body.addEventListener("click", element.clickOutsideEvent);
     },
-    unmounted(el) {
-        document.body.removeEventListener("click", el.clickOutsideEvent);
+    unmounted(element: ClickOutsideElement) {
+        document.body.removeEventListener("click", element.clickOutsideEvent);
     },
 };
 
