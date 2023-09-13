@@ -54,7 +54,7 @@
     // Functions
     async function register() {
         try {
-            await ppCLient.auth.register(data.value);
+            await ppCLient.authAPI.register(data.value);
             router.push("/home");
         } catch (error) {
             // TODO: Handle error

@@ -22,7 +22,7 @@ app.use(router);
         await ppClient.init();
         router.push("/");
     } catch (error) {
-        ppClient.auth.logout();
+        ppClient.authAPI.logout();
     }
     app.mount("#app");
 })();

@@ -50,7 +50,7 @@
     }
 
     function logout() {
-        ppCLient.auth.logout();
+        ppCLient.authAPI.logout();
     }
 </script>
 

@@ -1,25 +1,29 @@
-import AuthApi from "./authApi";
-import InspectorApi from "./inspectorApi";
-import axiosInstance from "./axiosInstance";
 import { type AxiosInstance } from "axios";
 import Cookies from "js-cookie";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
 import PPException, { EErrors } from "@/lib/PPException";
 
+import axiosInstance from "./axiosInstance";
+import AuthApi from "./authApi";
+import InspectorApi from "./inspectorApi";
+import ZoneApi from "./ZoneApi";
+
 export default class PeterParkerClient {
     axios: AxiosInstance;
-    auth: AuthApi;
+    authAPI: AuthApi;
     inspectorAPI: InspectorApi;
+    zoneAPI: ZoneApi;
 
     constructor() {
         this.axios = axiosInstance;
-        this.auth = new AuthApi(this.axios);
+        this.authAPI = new AuthApi(this.axios);
         this.inspectorAPI = new InspectorApi(this.axios);
+        this.zoneAPI = new ZoneApi(this.axios);
 
         createAuthRefreshInterceptor(
             this.axios,
             async (failedRequest: any) => {
-                const tokens = await this.auth.requestNewTokens();
+                const tokens = await this.authAPI.requestNewTokens();
                 failedRequest.response.config.headers["Authorization"] = "bearer " + tokens?.token;
             },
             {
@@ -32,9 +36,9 @@ export default class PeterParkerClient {
         const refreshToken = Cookies.get("refresh-token");
 
         if (refreshToken) {
-            this.auth.refreshToken = refreshToken;
-            await this.auth.requestNewTokens();
-            await this.auth.requestUserData();
+            this.authAPI.refreshToken = refreshToken;
+            await this.authAPI.requestNewTokens();
+            await this.authAPI.requestUserData();
         } else {
             throw new PPException(null, EErrors.NO_REFRESH_TOKEN);
         }
