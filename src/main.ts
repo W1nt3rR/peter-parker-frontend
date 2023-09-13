@@ -1,4 +1,6 @@
 import "@/sass/main.scss";
+import "leaflet/dist/leaflet.css";
+import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
@@ -6,6 +8,9 @@ import { createPinia } from "pinia";
 import App from "./App.vue";
 import router from "./router";
 import ppClient from "@/ppClient";
+
+import "leaflet";
+import "@geoman-io/leaflet-geoman-free";
 
 const app = createApp(App);
 
