@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from "vue-router";
+import Cookies from "js-cookie";
 
 import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
@@ -30,7 +31,7 @@ const router = createRouter({
 
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     if (to.matched.some((record) => record.meta.authRequired)) {
-        if (!localStorage.getItem("refresh-token")) {
+        if (!Cookies.get("refresh-token")) {
             next({ name: "login" });
         } else {
             next();
@@ -38,6 +39,8 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
     } else {
         next();
     }
+
+    next();
 });
 
 export default router;
