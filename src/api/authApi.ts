@@ -93,8 +93,14 @@ export default class AuthApi {
             this.setTokens(response.data as IAuthTokens);
 
             return response.data as IAuthTokens;
-        } catch (error) {
-            this.logout();
+        } catch (error: any) {
+            if (!error.response) {
+                throw new PPException(error, EErrors.SERVER_NOT_AVAILABLE);
+            }
+            if (error.response.status === 401) {
+                // Invalid Token
+                this.logout();
+            }
         }
     }
 

@@ -20,9 +20,9 @@ app.use(router);
 (async () => {
     try {
         await ppClient.init();
-        router.push("/");
     } catch (error) {
-        ppClient.authAPI.logout();
+        // Network error
     }
+
     app.mount("#app");
 })();

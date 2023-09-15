@@ -39,8 +39,6 @@ export default class PeterParkerClient {
             this.authAPI.refreshToken = refreshToken;
             await this.authAPI.requestNewTokens();
             await this.authAPI.requestUserData();
-        } else {
-            throw new PPException(null, EErrors.NO_REFRESH_TOKEN);
         }
     }
 }

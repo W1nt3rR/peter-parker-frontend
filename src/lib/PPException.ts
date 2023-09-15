@@ -5,6 +5,7 @@ export enum EErrors {
     REGISTRATION_ERROR = "Registration error",
     LOGIN_ERROR = "Login error",
     NO_REFRESH_TOKEN = "No refresh token",
+    SERVER_NOT_AVAILABLE = "Server not available",
 }
 
 export default class PPException {

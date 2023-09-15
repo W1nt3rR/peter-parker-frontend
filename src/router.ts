@@ -39,8 +39,6 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
     } else {
         next();
     }
-
-    next();
 });
 
 export default router;
