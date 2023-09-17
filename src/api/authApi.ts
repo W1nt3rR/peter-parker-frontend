@@ -1,7 +1,7 @@
 import config from "@/config";
 import PPException, { EErrors } from "@/lib/PPException";
 import router from "@/router";
-import { useStore } from "@/stores/store";
+import useStore from "@/stores/store";
 import axios, { type AxiosInstance } from "axios";
 import Cookies from "js-cookie";
 

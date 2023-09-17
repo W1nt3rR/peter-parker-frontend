@@ -6,8 +6,7 @@
 
 <script setup lang="ts">
     import { onMounted, ref } from "vue";
-    import { useStore } from "@/stores/store";
-
+    import useStore from "@/stores/store";
     import { type Map } from "leaflet";
 
     // Components

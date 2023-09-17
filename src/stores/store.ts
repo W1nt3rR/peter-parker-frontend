@@ -2,7 +2,7 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import type { IUserData } from "@/api/authApi";
 
-export const useStore = defineStore("store", () => {
+const useStore = defineStore("store", () => {
     // Data
     const user = ref<IUserData | null>(null);
 
@@ -10,3 +10,5 @@ export const useStore = defineStore("store", () => {
         user,
     };
 });
+
+export default useStore;

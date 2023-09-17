@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-    import { useStore } from "@/stores/store";
+    import useStore from "@/stores/store";
 
     // Components
     import AvatarComponent from "./AvatarComponent.vue";
