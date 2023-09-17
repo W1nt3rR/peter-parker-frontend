@@ -1,17 +1,20 @@
 <template>
     <div class="zone-dialog">
-        <h1>Zone Modal Dialog</h1>
-        <div>{{ dialogStore.selectedZone }}</div>
+        <h1>{{ dialogStore.selectedZone?.name }}</h1>
 
-        <ButtonComponent
-            label="Delete"
-            :type="EButtonType.DANGER"
-            :callback="deleteZone"
-        />
-        <ButtonComponent
-            label="Edit"
-            :callback="dialogStore.toggleEditingZone"
-        />
+        <div class="zone-info">{{ dialogStore.selectedZone }}</div>
+
+        <div class="buttons">
+            <ButtonComponent
+                label="Delete"
+                :type="EButtonType.DANGER"
+                :callback="deleteZone"
+            />
+            <ButtonComponent
+                label="Edit"
+                :callback="dialogStore.toggleEditingZone"
+            />
+        </div>
     </div>
 </template>
 
@@ -36,11 +39,26 @@
 
 <style lang="scss" scoped>
     .zone-dialog {
-        height: 400px;
-        width: 400px;
+        display: flex;
+        flex-direction: column;
+
+        min-height: 400px;
+        width: 600px;
         background-color: rgba(69, 00, 69, 0.5);
         border-radius: 20px;
 
+        padding: 20px;
+
         backdrop-filter: blur(16px);
+
+        .zone-info {
+            flex-grow: 1;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 10px;
+        }
     }
 </style>
