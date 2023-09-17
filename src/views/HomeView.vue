@@ -20,17 +20,6 @@
     // Data
     const zoom = ref(200);
 
-    async function onShapeCreated(e: any) {
-        console.log(e);
-
-        const geojson = e.layer.toGeoJSON();
-
-        await ppCLient.zoneAPI.create(geojson.geometry as any);
-        await store.requestZones();
-
-        setupZones();
-    }
-
     async function setupZones() {
         if (store.zones.length === 0) {
             return;
@@ -89,8 +78,6 @@
         //     position: "topleft",
         //     drawCircle: true,
         // });
-
-        store.map?.on("pm:create", onShapeCreated);
 
         store.map?.on("pm:edit", updateZoneGeoJSON);
         store.map?.on("pm:update", updateZoneGeoJSON);

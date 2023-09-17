@@ -7,11 +7,36 @@ export enum EZoneColors {
     LOT_AREA_COLOR = "#0000FF",
 }
 
+export enum EAreaTypes {
+    GARAGE = "garage",
+    UNDERGROUND = "underground",
+    LOT = "lot",
+}
+
 export interface IZoneData {
     guid: string;
     geoJSON: object;
     name: string;
-    parkingAreas: Array<object>;
+    parkingAreas: Array<IAreaData>;
+}
+
+export interface IAreaData {
+    name: string;
+    guid: string;
+    type: EAreaTypes;
+    address: string;
+    geoJSON: object;
+    workingHours: string;
+    parkingSpaces: Array<object>;
+}
+
+export interface IAddAreaData {
+    name: string;
+    type: EAreaTypes;
+    address: string;
+    geoJSON: object;
+    workingHours: string;
+    numberOfSpaces: number;
 }
 
 export default class ZoneApi {
@@ -52,6 +77,13 @@ export default class ZoneApi {
             data: {
                 guid: guid,
             }
+        });
+    }
+
+    async addArea(zoneGuid: string, area: IAddAreaData) {
+        await this.axios.post("/Zone/AddArea", {
+            ZoneGUID: zoneGuid,
+            Area: area,
         });
     }
 }

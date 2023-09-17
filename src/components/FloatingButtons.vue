@@ -2,8 +2,8 @@
     <div class="floating-buttons">
         <ButtonComponent
             v-if="!dialogStore.zoneEditing"
-            :label="drawing ? 'Cancel' : 'Add Zone'"
-            :callback="toggleCreateZone"
+            :label="store.drawing ? 'Cancel' : 'Add Zone'"
+            :callback="store.drawing ? store.disableDraw : store.drawZone"
         />
         <ButtonComponent
             v-if="dialogStore.zoneEditing"
@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from "vue";
     import useDialogStore from "@/stores/dialogStore";
     import useStore from "@/stores/store";
 
@@ -28,19 +27,7 @@
 
     const store = useStore();
     const dialogStore = useDialogStore();
-
-    const drawing = ref(false);
-
-    // Functions
-    function toggleCreateZone() {
-        if (drawing.value) {
-            drawing.value = false;
-            store.map?.pm.disableDraw("Poly");
-        } else {
-            drawing.value = true;
-            store.map?.pm.enableDraw("Poly");
-        }
-    }
+    
 </script>
 
 <style scoped lang="scss">

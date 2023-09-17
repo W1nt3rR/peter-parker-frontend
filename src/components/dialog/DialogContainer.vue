@@ -1,6 +1,6 @@
 <template>
     <div
-        v-show="!dialogStore.zoneEditing"
+        v-show="!dialogStore.zoneEditing && !store.drawing"
         class="dialog-container"
         @click="dialogStore.closeDialog"
     >
@@ -13,11 +13,13 @@
 
 <script setup lang="ts">
     import useDialogStore, { EDialogs } from "@/stores/dialogStore";
+    import useStore from "@/stores/store";
 
     // Components
     import ZoneModalDialogVue from "@/components/dialog/ZoneModalDialog.vue";
 
     const dialogStore = useDialogStore();
+    const store = useStore();
 </script>
 
 <style scoped lang="scss">
