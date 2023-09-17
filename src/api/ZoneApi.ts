@@ -33,9 +33,8 @@ export default class ZoneApi {
         return zones;
     }
 
-    async create(name: string, geoJson: object) {
+    async create(geoJson: object) {
         await this.axios.post("/Zone/Add", {
-            Name: name,
             GeoJSON: JSON.stringify(geoJson),
         });
     }

@@ -25,7 +25,7 @@
 
         const geojson = e.layer.toGeoJSON();
 
-        await ppCLient.zoneAPI.create(`Zoneee ${store.zones.length + 1}`, geojson.geometry as any);
+        await ppCLient.zoneAPI.create(geojson.geometry as any);
         await store.requestZones();
 
         setupZones();
