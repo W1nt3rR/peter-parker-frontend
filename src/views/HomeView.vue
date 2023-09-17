@@ -10,7 +10,6 @@
     import useDialogStore from "@/stores/dialogStore";
     import ppCLient from "@/ppClient";
     import { EZoneColors, type IZoneData } from "@/api/ZoneApi";
-    import { type Map } from "leaflet";
 
     // Components
     import LayoutComponent from "@/components/LayoutComponent.vue";
@@ -20,14 +19,13 @@
 
     // Data
     const zoom = ref(200);
-    const map = ref<Map | null>(null);
 
     async function onShapeCreated(e: any) {
         console.log(e);
 
         const geojson = e.layer.toGeoJSON();
 
-        await ppCLient.zoneAPI.create(`Zonee ${store.zones.length + 1}`, geojson.geometry as any);
+        await ppCLient.zoneAPI.create(`Zoneee ${store.zones.length + 1}`, geojson.geometry as any);
         await store.requestZones();
 
         setupZones();
@@ -41,9 +39,9 @@
         const L = (window as any).L;
 
         // remove all layers
-        map.value?.eachLayer((layer: any) => {
+        store.map?.eachLayer((layer: any) => {
             if (!layer._url) {
-                map.value?.removeLayer(layer);
+                store.map?.removeLayer(layer);
             }
         });
 
@@ -53,7 +51,7 @@
                 style: {
                     color: EZoneColors.ZONE_COLOR,
                 },
-            }).addTo(map.value);
+            }).addTo(store.map);
 
             console.log("zoneLayer", zoneLayer);
 
@@ -81,24 +79,24 @@
         const L = (window as any).L;
 
         // Create map
-        map.value = L.map("map").setView([43.1421256, 20.5084578], 13);
+        store.map = L.map("map").setView([43.1421256, 20.5084578], 13);
 
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             attribution: "© OpenStreetMap contributors",
-        }).addTo(map.value);
+        }).addTo(store.map);
 
-        map.value?.pm.addControls({
-            position: "topleft",
-            drawCircle: true,
-        });
+        // store.map?.pm.addControls({
+        //     position: "topleft",
+        //     drawCircle: true,
+        // });
 
-        map.value?.on("pm:create", onShapeCreated);
+        store.map?.on("pm:create", onShapeCreated);
 
-        map.value?.on("pm:edit", updateZoneGeoJSON);
-        map.value?.on("pm:update", updateZoneGeoJSON);
-        map.value?.on("pm:cut", updateZoneGeoJSON);
-        map.value?.on("pm:remove", deleteZone);
-        map.value?.on("pm:dragend", (e: any) => {
+        store.map?.on("pm:edit", updateZoneGeoJSON);
+        store.map?.on("pm:update", updateZoneGeoJSON);
+        store.map?.on("pm:cut", updateZoneGeoJSON);
+        store.map?.on("pm:remove", deleteZone);
+        store.map?.on("pm:dragend", (e: any) => {
             console.log("dragend", e);
         });
     }

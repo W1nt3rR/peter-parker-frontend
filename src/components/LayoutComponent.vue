@@ -1,17 +1,7 @@
 <template>
     <div id="layout">
         <nav>
-            <div>{{ store.user? store.user.email : "logged out" }}</div>
-            <ButtonComponentVue
-                v-if="dialogStore.zoneEditing"
-                label="Cancel Editing"
-                :callback="() => dialogStore.toggleEditingZone(true)"
-            />
-            <ButtonComponentVue
-                v-if="dialogStore.zoneEditing"
-                label="Finish Editing"
-                :callback="dialogStore.toggleEditingZone"
-            />
+            <div>{{ store.user ? store.user.email : "logged out" }}</div>
             <AvatarComponent />
         </nav>
         <slot></slot>
@@ -23,11 +13,8 @@
 
     // Components
     import AvatarComponent from "./AvatarComponent.vue";
-    import ButtonComponentVue from "./button/ButtonComponent.vue";
-    import useDialogStore from "@/stores/dialogStore";
 
     const store = useStore();
-    const dialogStore = useDialogStore();
 </script>
 
 <style scoped lang="scss">

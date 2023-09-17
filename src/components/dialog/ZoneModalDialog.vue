@@ -5,6 +5,7 @@
 
         <ButtonComponent
             label="Delete"
+            :type="EButtonType.DANGER"
             :callback="deleteZone"
         />
         <ButtonComponent
@@ -19,6 +20,7 @@
     import useDialogStore from "@/stores/dialogStore";
     import ButtonComponent from "../button/ButtonComponent.vue";
     import useStore from "@/stores/store";
+    import { EButtonType } from "../button/ButtonDefinitions";
 
     const dialogStore = useDialogStore();
     const store = useStore();
