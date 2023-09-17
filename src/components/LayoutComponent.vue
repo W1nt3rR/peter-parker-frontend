@@ -1,7 +1,7 @@
 <template>
     <div id="layout">
         <nav>
-            <div>{{ store.user }}</div>
+            <div>{{ store.user? store.user.email : "logged out" }}</div>
             <ButtonComponentVue
                 v-if="dialogStore.zoneEditing"
                 label="Cancel Editing"
