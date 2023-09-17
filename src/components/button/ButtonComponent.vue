@@ -20,8 +20,8 @@
         type: EButtonType.PRIMARY,
     });
 
-    function executeCallback() {
-        props.callback();
+    async function executeCallback() {
+        await props.callback();
     }
 </script>
 
