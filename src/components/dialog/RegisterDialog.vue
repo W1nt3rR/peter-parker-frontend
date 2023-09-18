@@ -40,10 +40,9 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import ppCLient from "@/ppClient";
-    import router from "@/router";
     import useDialogStore from "@/stores/dialogStore";
     import type { IRegisterData } from "@/api/authApi";
-
+    import useStore from "@/stores/store";
 
     // Components
     import DialogBox from "./DialogBox.vue";
@@ -52,6 +51,7 @@
     import { EButtonType } from "@/components/button/ButtonDefinitions";
 
     const dialogStore = useDialogStore();
+    const store = useStore();
 
     // Data
     const data = ref<IRegisterData>({
@@ -66,7 +66,7 @@
     async function register() {
         try {
             await ppCLient.authAPI.register(data.value);
-            router.push("/home");
+            await store.requestZones();
         } catch (error) {
             // TODO: Handle error
         }

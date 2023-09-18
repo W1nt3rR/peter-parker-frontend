@@ -28,7 +28,7 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import ppCLient from "@/ppClient";
-    import router from "@/router";
+    import useStore from "@/stores/store";
     import useDialogStore from "@/stores/dialogStore";
 
     // Components
@@ -38,6 +38,7 @@
     import { EButtonType } from "@/components/button/ButtonDefinitions";
 
     const dialogStore = useDialogStore();
+    const store = useStore();
 
     // Data
     const email = ref<string>("");
@@ -47,8 +48,8 @@
     async function login() {
         try {
             await ppCLient.authAPI.login(email.value, password.value);
-            router.push("/");
-        } catch (error) {
+            await store.requestZones();
+        } catch (error: any) {
             // TODO: Handle error
         }
     }
