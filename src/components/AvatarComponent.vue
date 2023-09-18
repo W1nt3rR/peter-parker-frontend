@@ -18,7 +18,12 @@
                 class="dropdown"
             >
                 <div class="dropdown-item">Profile</div>
-                <div class="dropdown-item">Settings</div>
+                <div
+                    class="dropdown-item"
+                    @click="dialogStore.openSettingsDialog"
+                >
+                    Settings
+                </div>
                 <div
                     class="dropdown-item"
                     @click="logout"
@@ -32,10 +37,13 @@
 
 <script setup lang="ts">
     import { ref } from "vue";
+    import useDialogStore from "@/stores/dialogStore";
 
     // Directives
     import vOnClickOutside from "@/directives/vOnClickOutside";
     import ppCLient from "@/ppClient";
+
+    const dialogStore = useDialogStore();
 
     // Data
     const dropdownActive = ref(false);

@@ -37,7 +37,7 @@
         right: 0;
         margin: 1rem;
 
-        z-index: 1000;
+        z-index: 900;
 
         display: flex;
         gap: 10px;

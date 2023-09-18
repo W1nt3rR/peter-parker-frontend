@@ -4,9 +4,13 @@
         class="dialog-container"
         @click="dialogStore.closeDialog"
     >
-        <ZoneModalDialogVue
+        <ZoneModalDialog
             @click.stop
             v-if="dialogStore.dialogType === EDialogs.ZONE"
+        />
+        <SettingsDialog
+            @click.stop
+            v-if="dialogStore.dialogType === EDialogs.SETTINGS"
         />
     </div>
 </template>
@@ -16,7 +20,8 @@
     import useStore from "@/stores/store";
 
     // Components
-    import ZoneModalDialogVue from "@/components/dialog/ZoneModalDialog.vue";
+    import ZoneModalDialog from "@/components/dialog/ZoneModalDialog.vue";
+    import SettingsDialog from "@/components/dialog/settings/SettingsDialog.vue";
 
     const dialogStore = useDialogStore();
     const store = useStore();

@@ -29,6 +29,8 @@
     @import "@/sass/includes";
 
     .button-component {
+        flex-shrink: 0;
+        
         button {
             height: 40px;
 
@@ -36,6 +38,7 @@
 
             border-radius: 10px;
             color: white;
+            backdrop-filter: blur(16px);
 
             border: 0;
 

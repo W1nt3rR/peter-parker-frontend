@@ -5,6 +5,7 @@
             type="text"
             v-model="modelValue"
             :placeholder="placeholder"
+            :disabled="disabled"
         />
     </div>
 </template>
@@ -14,6 +15,7 @@
     interface Props {
         label: string;
         placeholder?: string;
+        disabled?: boolean;
     }
 
     // Model
@@ -28,6 +30,11 @@
 
     .input-component {
         width: 100%;
+
+        :has(input[disabled]) {
+            opacity: 0.5;
+            pointer-events: none;
+        }
 
         label {
             color: white;

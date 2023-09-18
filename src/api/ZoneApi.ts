@@ -27,16 +27,22 @@ export interface IAreaData {
     address: string;
     geoJSON: object;
     workingHours: string;
-    parkingSpaces: Array<object>;
+    parkingSpaces: Array<IParkingSpaceData>;
+}
+
+export interface IParkingSpaceData {
+    guid: string;
+    vehicle: object;
+    number: number;
 }
 
 export interface IAddAreaData {
     name: string;
-    type: EAreaTypes;
+    type: string;
     address: string;
-    geoJSON: object;
+    geoJSON: object | null | string;
     workingHours: string;
-    numberOfSpaces: number;
+    numberOfSpaces: string;
 }
 
 export default class ZoneApi {
@@ -53,6 +59,10 @@ export default class ZoneApi {
 
         zones.forEach((zone: any) => {
             zone.geoJSON = JSON.parse(zone.geoJSON);
+
+            zone.parkingAreas.forEach((area: any) => {
+                area.geoJSON = JSON.parse(area.geoJSON);
+            })
         });
 
         return zones;
@@ -81,9 +91,10 @@ export default class ZoneApi {
     }
 
     async addArea(zoneGuid: string, area: IAddAreaData) {
+        area.geoJSON = JSON.stringify(area.geoJSON);
         await this.axios.post("/Zone/AddArea", {
             ZoneGUID: zoneGuid,
-            Area: area,
+            ParkingArea: area,
         });
     }
 }

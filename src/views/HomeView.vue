@@ -8,7 +8,7 @@
     import { onMounted, watch } from "vue";
     import useStore from "@/stores/store";
     import useDialogStore from "@/stores/dialogStore";
-    import { EZoneColors } from "@/api/ZoneApi";
+    import { EAreaTypes, EZoneColors } from "@/api/ZoneApi";
 
     // Components
     import LayoutComponent from "@/components/LayoutComponent.vue";
@@ -36,6 +36,23 @@
                     color: EZoneColors.ZONE_COLOR,
                 },
             }).addTo(store.map);
+
+            zone.parkingAreas.forEach((area) => {
+                const color = area.type === EAreaTypes.GARAGE ? EZoneColors.GARAGE_AREA_COLOR : area.type === EAreaTypes.LOT ? EZoneColors.LOT_AREA_COLOR : EZoneColors.UNDERGROUND_AREA_COLOR;
+                const areaLayer = L.geoJSON(area.geoJSON, {
+                    areaInfo: area,
+                    style: {
+                        color: color,
+                    },
+                }).addTo(store.map);
+
+                areaLayer.on("click", (e: MouseEvent) => {
+                    console.log(area.name, e);
+                    dialogStore.openZoneDialog(zone, e, area); // to imlement 
+                });
+            });
+
+            console.log("zone", zone);
 
             zoneLayer.on("click", (e: MouseEvent) => {
                 console.log(zone.name, e);

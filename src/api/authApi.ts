@@ -9,6 +9,17 @@ export interface IUserData {
     email: string;
     firstName: string;
     lastName: string;
+    homeAddress: string;
+    subscription: string;
+    vehicles: Array<object>;
+    tickets: Array<object>;
+}
+
+export interface IUserUpdateData {
+    firstName?: string;
+    lastName?: string;
+    homeAddress?: string;
+    password?: string;
 }
 
 export interface IRegisterData {
@@ -112,5 +123,10 @@ export default class AuthApi {
         store.user = response.data;
 
         return response.data;
+    }
+
+    async updateUserData(userData: IUserUpdateData) {
+        await this.axios.put("/User/Update", userData);
+        this.requestUserData();
     }
 }

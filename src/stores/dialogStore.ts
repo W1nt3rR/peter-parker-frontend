@@ -1,6 +1,6 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import type { IZoneData } from "@/api/ZoneApi";
+import type { IAreaData, IParkingSpaceData, IZoneData } from "@/api/ZoneApi";
 import useStore from "./store";
 import ppCLient from "@/ppClient";
 
@@ -8,6 +8,7 @@ export enum EDialogs {
     LOGIN = "login",
     REGISTER = "register",
     ZONE = "zone",
+    SETTINGS = "settings",
 }
 
 const useDialogStore = defineStore("dialogStore", () => {
@@ -24,17 +25,28 @@ const useDialogStore = defineStore("dialogStore", () => {
 
         // Reset Values
         selectedZone.value = null;
+        selectedZonePolygon.value = null;
+        zoneEditing.value = false;
+        selectedArea.value = null;
+        selectedParkingSpace.value = null;
     }
 
     // Zone Dialog
     const selectedZone = ref<IZoneData | null>(null);
     const selectedZonePolygon = ref<any>(null);
     const zoneEditing = ref<boolean>(false);
+    const selectedArea = ref<IAreaData | null>(null);
+    const selectedParkingSpace = ref<IParkingSpaceData | null>(null);
 
-    function openZoneDialog(zoneData: IZoneData, zonePolygon: any) {
+    function openZoneDialog(zoneData: IZoneData, zonePolygon: any, zoneArea?: IAreaData) {
         selectedZone.value = zoneData;
         selectedZonePolygon.value = zonePolygon;
+        if (zoneArea) selectedArea.value = zoneArea;
         openDialog(EDialogs.ZONE);
+    }
+
+    function openSettingsDialog() {
+        openDialog(EDialogs.SETTINGS);
     }
 
     async function toggleEditingZone(cancel: boolean = false) {
@@ -58,9 +70,12 @@ const useDialogStore = defineStore("dialogStore", () => {
         selectedZone,
         selectedZonePolygon,
         zoneEditing,
+        selectedArea,
+        selectedParkingSpace,
         openDialog,
         closeDialog,
         openZoneDialog,
+        openSettingsDialog,
         toggleEditingZone,
     };
 });
