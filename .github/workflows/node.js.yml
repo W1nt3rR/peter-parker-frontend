@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ "master" ]
 
+permissions:
+  cocontents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -20,7 +23,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20' # Change this to your preferred Node.js version
+          node-version: '18' # Change this to your preferred Node.js version
 
       - name: Copy .env.example to .env
         run: cp .env.example .env
@@ -32,7 +35,7 @@ jobs:
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/4.4.3
+        uses: JamesIves/github-pages-deploy-action@4.4.3
         with:
           branch: gh-pages # The branch where the built project will be deployed
           folder: dist # Change this to your build output directory
