@@ -4,6 +4,7 @@ import useStore from "@/stores/store";
 import axios, { type AxiosInstance } from "axios";
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
+import type { IVehicleData } from "./vehicleApi";
 
 export interface IUserData {
     email: string;
@@ -11,7 +12,7 @@ export interface IUserData {
     lastName: string;
     homeAddress: string;
     subscription: string;
-    vehicles: Array<object>;
+    vehicles: Array<IVehicleData>;
     tickets: Array<object>;
 }
 

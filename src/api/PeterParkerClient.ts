@@ -7,18 +7,21 @@ import axiosInstance from "./axiosInstance";
 import AuthApi from "./authApi";
 import InspectorApi from "./inspectorApi";
 import ZoneApi from "./ZoneApi";
+import VehicleApi from "./vehicleApi";
 
 export default class PeterParkerClient {
     axios: AxiosInstance;
     authAPI: AuthApi;
     inspectorAPI: InspectorApi;
     zoneAPI: ZoneApi;
+    vehicleApi: VehicleApi;
 
     constructor() {
         this.axios = axiosInstance;
         this.authAPI = new AuthApi(this.axios);
         this.inspectorAPI = new InspectorApi(this.axios);
         this.zoneAPI = new ZoneApi(this.axios);
+        this.vehicleApi = new VehicleApi(this.axios);
 
         createAuthRefreshInterceptor(
             this.axios,

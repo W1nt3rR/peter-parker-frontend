@@ -62,6 +62,8 @@
             display: flex;
             flex-direction: column;
 
+            flex-shrink: 0;
+
             border-radius: 10px;
             overflow: hidden;
 
