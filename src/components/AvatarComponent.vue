@@ -17,7 +17,6 @@
                 v-if="dropdownActive"
                 class="dropdown"
             >
-                <div class="dropdown-item">Profile</div>
                 <div
                     class="dropdown-item"
                     @click="dialogStore.openSettingsDialog"
