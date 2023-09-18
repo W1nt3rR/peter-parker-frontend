@@ -24,7 +24,9 @@ const useStore = defineStore("store", () => {
 
     function enableDraw() {
         drawing.value = true;
-        map.value?.pm.enableDraw("Poly");
+        map.value?.pm.enableDraw("Poly", {
+            snappable: false,
+        });
     }
 
     function disableDraw() {
