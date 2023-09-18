@@ -1,9 +1,9 @@
 import config from "@/config";
 import PPException, { EErrors } from "@/lib/PPException";
-import router from "@/router";
 import useStore from "@/stores/store";
 import axios, { type AxiosInstance } from "axios";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 
 export interface IUserData {
     email: string;
@@ -63,8 +63,10 @@ export default class AuthApi {
 
     logout() {
         Cookies.remove("refresh-token");
+        const store = useStore();
+        store.user = null;
+        store.userDataFromToken = null;
         this.refreshToken = null;
-        router.push("/login");
     }
 
     async register(registerData: IRegisterData) {
@@ -81,6 +83,13 @@ export default class AuthApi {
 
     setTokens(tokens: IAuthTokens) {
         this.refreshToken = tokens.refreshToken;
+
+        const store = useStore();
+        store.userDataFromToken = jwt_decode(tokens.token);
+
+        console.log(store.userDataFromToken);
+        
+
         this.setAuthHeader(tokens.token);
         this.storeRefreshToken(tokens.refreshToken);
     }

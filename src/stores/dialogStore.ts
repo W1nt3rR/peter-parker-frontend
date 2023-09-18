@@ -14,6 +14,7 @@ export enum EDialogs {
 const useDialogStore = defineStore("dialogStore", () => {
     // Data
     const dialogType = ref<EDialogs | null>(null);
+    const showRegisterDialog = ref<boolean>(false);
 
     // Functions
     function openDialog(type: EDialogs) {
@@ -67,6 +68,7 @@ const useDialogStore = defineStore("dialogStore", () => {
 
     return {
         dialogType,
+        showRegisterDialog,
         selectedZone,
         selectedZonePolygon,
         zoneEditing,

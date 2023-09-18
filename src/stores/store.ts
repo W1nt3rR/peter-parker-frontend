@@ -8,11 +8,17 @@ import { type Map } from "leaflet";
 const useStore = defineStore("store", () => {
     // Data
     const user = ref<IUserData | null>(null);
+    const userDataFromToken = ref<any>(null);
 
     const map = ref<Map | null>(null);
 
     const zones = ref<Array<IZoneData>>([]);
     const drawing = ref(false);
+
+    // Computed
+    const userClaims = computed(() => {
+        return userDataFromToken.value?.claims;
+    })
 
     // Functions
 
@@ -56,9 +62,11 @@ const useStore = defineStore("store", () => {
 
     return {
         user,
+        userDataFromToken,
         map,
         zones,
         drawing,
+        userClaims,
         enableDraw,
         disableDraw,
         drawZone,

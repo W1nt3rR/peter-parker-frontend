@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalized } from "vue-router";
 import Cookies from "js-cookie";
-
-import LoginView from "@/views/LoginView.vue";
-import RegisterView from "@/views/RegisterView.vue";
 import HomeView from "@/views/HomeView.vue";
 
 const router = createRouter({
@@ -13,18 +10,8 @@ const router = createRouter({
             name: "home",
             component: HomeView,
             meta: {
-                authRequired: true,
+                authRequired: false,
             },
-        },
-        {
-            path: "/login",
-            name: "login",
-            component: LoginView,
-        },
-        {
-            path: "/register",
-            name: "register",
-            component: RegisterView,
         },
     ],
 });

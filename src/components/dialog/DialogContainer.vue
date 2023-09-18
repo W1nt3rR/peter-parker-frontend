@@ -4,24 +4,13 @@
         class="dialog-container"
         @click="dialogStore.closeDialog"
     >
-        <ZoneModalDialog
-            @click.stop
-            v-if="dialogStore.dialogType === EDialogs.ZONE"
-        />
-        <SettingsDialog
-            @click.stop
-            v-if="dialogStore.dialogType === EDialogs.SETTINGS"
-        />
+        <slot></slot>
     </div>
 </template>
 
 <script setup lang="ts">
-    import useDialogStore, { EDialogs } from "@/stores/dialogStore";
+    import useDialogStore from "@/stores/dialogStore";
     import useStore from "@/stores/store";
-
-    // Components
-    import ZoneModalDialog from "@/components/dialog/ZoneModalDialog.vue";
-    import SettingsDialog from "@/components/dialog/settings/SettingsDialog.vue";
 
     const dialogStore = useDialogStore();
     const store = useStore();
