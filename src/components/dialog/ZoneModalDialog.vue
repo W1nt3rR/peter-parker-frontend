@@ -156,6 +156,7 @@
 
     async function addArea() {
         await ppCLient.zoneAPI.addArea(dialogStore.selectedZone!.guid, newAreaData.value);
+        dialogStore.closeDialog();
         await store.requestZones();
     }
 
