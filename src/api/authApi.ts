@@ -74,9 +74,6 @@ export default class AuthApi {
         try {
             const response = await axios.post(`${config.apiBaseURL}/User/Register`, registerData);
 
-            console.log("REGISTER RESPONSE", response);
-            
-
             this.setTokens(response.data as IAuthTokens);
 
             await this.requestUserData();
