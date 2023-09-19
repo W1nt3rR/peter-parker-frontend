@@ -25,8 +25,10 @@
                         v-model="newAreaData.numberOfSpaces"
                     />
                     <InputComponent
-                        label="Area Parking spots"
+                        label="Working hours"
                         v-model="newAreaData.workingHours"
+                        :maska="'##-##'"
+                        placeholder="08-20"
                     />
                     <div class="combined-input">
                         <InputComponent
@@ -138,7 +140,7 @@
         numberOfSpaces: "10",
         type: "",
         geoJSON: null,
-        workingHours: "08 - 16",
+        workingHours: "",
     });
 
     // Functions
