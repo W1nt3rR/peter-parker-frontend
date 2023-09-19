@@ -6,16 +6,21 @@
             v-model="modelValue"
             :placeholder="placeholder"
             :disabled="disabled"
+            v-maska
+            :data-maska="maska"
         />
     </div>
 </template>
 
 <script setup lang="ts">
+    import { vMaska } from "maska";
+
     // Interfaces
     interface Props {
         label: string;
         placeholder?: string;
         disabled?: boolean;
+        maska?: string;
     }
 
     // Model
