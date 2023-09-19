@@ -26,7 +26,7 @@ export interface IUserUpdateData {
 export interface IRegisterData {
     email: string;
     password: string;
-    passwordConfirmation: string;
+    homeAddress: string;
     firstName: string;
     lastName: string;
 }
@@ -46,12 +46,12 @@ export default class AuthApi {
 
     async login(email: string, password: string) {
         try {
-            const response = await this.axios.post("/User/LogIn", { email, password });
+            const response = await axios.post(`${config.apiBaseURL}/User/LogIn`, { email, password });
 
             this.setTokens(response.data as IAuthTokens);
 
             await this.requestUserData();
-        } catch (error) {
+        } catch (error: any) {
             throw new PPException(error, EErrors.LOGIN_ERROR);
         }
     }
@@ -72,7 +72,10 @@ export default class AuthApi {
 
     async register(registerData: IRegisterData) {
         try {
-            const response = await this.axios.post("/User/Register", registerData);
+            const response = await axios.post(`${config.apiBaseURL}/User/Register`, registerData);
+
+            console.log("REGISTER RESPONSE", response);
+            
 
             this.setTokens(response.data as IAuthTokens);
 
@@ -89,7 +92,6 @@ export default class AuthApi {
         store.userDataFromToken = jwt_decode(tokens.token);
 
         console.log(store.userDataFromToken);
-        
 
         this.setAuthHeader(tokens.token);
         this.storeRefreshToken(tokens.refreshToken);
@@ -101,7 +103,7 @@ export default class AuthApi {
 
     async requestNewTokens() {
         if (!this.refreshToken) {
-            throw new PPException(null, EErrors.NO_REFRESH_TOKEN);
+            return;
         }
 
         try {

@@ -4,23 +4,27 @@
             <h1>Register</h1>
             <InputComponent
                 label="First Name"
-                v-model="data.firstName"
+                v-model="firstName"
             />
             <InputComponent
                 label="Last Name"
-                v-model="data.lastName"
+                v-model="lastName"
             />
             <InputComponent
                 label="Email"
-                v-model="data.email"
+                v-model="email"
+            />
+            <InputComponent
+                label="Home Adress"
+                v-model="homeAddress"
             />
             <InputComponent
                 label="Password"
-                v-model="data.password"
+                v-model="password"
             />
             <InputComponent
                 label="Confirm Password"
-                v-model="data.passwordConfirmation"
+                v-model="confirmPassword"
             />
             <ButtonComponent
                 label="Register"
@@ -28,10 +32,15 @@
                 :type="EButtonType.PRIMARY"
             />
 
+            <div v-if="errorMessage">
+                {{ errorMessage }}
+            </div>
+
             <ButtonComponent
                 label="Go to login"
                 :callback="() => (dialogStore.showRegisterDialog = false)"
                 :type="EButtonType.SECONDARY"
+                :loading="loading"
             />
         </div>
     </DialogBox>
@@ -54,22 +63,47 @@
     const store = useStore();
 
     // Data
-    const data = ref<IRegisterData>({
-        email: "",
-        password: "",
-        passwordConfirmation: "",
-        firstName: "",
-        lastName: "",
-    });
+    const errorMessage = ref<string | null>(null);
+    const loading = ref<boolean>(false);
+    const email = ref<string>("");
+    const firstName = ref<string>("");
+    const lastName = ref<string>("");
+    const homeAddress = ref<string>("");
+    const password = ref<string>("");
+    const confirmPassword = ref<string>("");
 
     // Functions
     async function register() {
-        try {
-            await ppCLient.authAPI.register(data.value);
-            await store.requestZones();
-        } catch (error) {
-            // TODO: Handle error
+        errorMessage.value = null;
+
+        if (!email.value || !password.value || !firstName.value || !lastName.value || !homeAddress.value) {
+            errorMessage.value = "Please fill in all fields";
+            return;
         }
+
+        if (password.value !== confirmPassword.value) {
+            errorMessage.value = "Passwords do not match";
+            return;
+        }
+
+        loading.value = true;
+
+        const data: IRegisterData = {
+            firstName: firstName.value,
+            lastName: lastName.value,
+            homeAddress: homeAddress.value,
+            password: password.value,
+            email: email.value,
+        };
+
+        try {
+            await ppCLient.authAPI.register(data);
+            await store.requestZones();
+        } catch (error: any) {
+            errorMessage.value = error.backendErrorObj?.Message || error.message;
+        }
+
+        loading.value = false;
     }
 </script>
 
@@ -81,11 +115,9 @@
         justify-content: center;
         gap: 20px;
 
-        height: 100%;
+        width: 400px;
 
         overflow-y: auto;
-
-        padding: 40px;
 
         h1 {
             color: white;

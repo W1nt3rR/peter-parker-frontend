@@ -14,11 +14,16 @@
                 label="Login"
                 :callback="login"
                 :type="EButtonType.PRIMARY"
+                :loading="loading"
             />
+
+            <div v-if="errorMessage">
+                {{ errorMessage }}
+            </div>
 
             <ButtonComponent
                 label="Go to register"
-                :callback="() => dialogStore.showRegisterDialog = true"
+                :callback="() => (dialogStore.showRegisterDialog = true)"
                 :type="EButtonType.SECONDARY"
             />
         </div>
@@ -43,15 +48,28 @@
     // Data
     const email = ref<string>("");
     const password = ref<string>("");
+    const errorMessage = ref<string | null>(null);
+    const loading = ref<boolean>(false);
 
     // Functions
     async function login() {
+        errorMessage.value = null;
+
+        if (!email.value || !password.value) {
+            errorMessage.value = "Please fill in all fields";
+            return;
+        }
+
+        loading.value = true;
+
         try {
             await ppCLient.authAPI.login(email.value, password.value);
             await store.requestZones();
         } catch (error: any) {
-            // TODO: Handle error
+            errorMessage.value = error.backendErrorObj?.Message || error.message;
         }
+
+        loading.value = false;
     }
 </script>
 
@@ -63,7 +81,7 @@
         justify-content: center;
         gap: 20px;
 
-        padding: 40px;
+        width: 400px;
 
         h1 {
             color: white;

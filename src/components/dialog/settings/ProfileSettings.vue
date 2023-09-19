@@ -61,7 +61,11 @@
 
         if (password.value) data.password = password.value;
 
-        await ppCLient.authAPI.updateUserData(data);
+        try {
+            await ppCLient.authAPI.updateUserData(data);
+        } catch (error) {
+            console.log("profile settings", error);
+        }
     }
 
     onMounted(() => {

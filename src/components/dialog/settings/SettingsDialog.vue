@@ -48,8 +48,8 @@
     @import "@/sass/includes";
 
     .settings-dialog {
-        width: 100%;
-        height: 100%;
+        width: 800px;
+        height: 500px;
         display: flex;
         align-items: center;
         justify-content: center;
