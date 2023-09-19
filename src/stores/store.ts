@@ -66,7 +66,8 @@ const useStore = defineStore("store", () => {
     }
 
     watch(user, (newValue, oldValue) => {
-        selectedVehicle.value = newValue?.vehicles[0];
+        if (!newValue) return;
+        selectedVehicle.value = newValue.vehicles[0];
     })
 
     return {
