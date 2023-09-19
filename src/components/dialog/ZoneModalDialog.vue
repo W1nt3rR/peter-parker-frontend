@@ -77,21 +77,36 @@
                     </div>
 
                     <div
-                        class="parking-spaces"
+                        class="parking"
                         v-if="dialogStore.selectedArea"
                     >
-                        <div
-                            class="parking-space"
-                            :class="{
-                                selected: parking.guid === dialogStore.selectedParkingSpace?.guid,
-                                free: parking.vehicle === null,
-                                occupied: parking.vehicle !== null,
-                            }"
-                            v-for="parking in dialogStore.selectedArea.parkingSpaces"
-                            :key="parking.guid"
-                            @click="dialogStore.selectedParkingSpace = parking"
-                        >
-                            {{ parking.number }}
+                        <div class="parking-spaces">
+                            <div
+                                class="parking-space"
+                                :class="{
+                                    selected: parking.guid === dialogStore.selectedParkingSpace?.guid,
+                                    free: parking.vehicle === null,
+                                    occupied: parking.vehicle !== null,
+                                }"
+                                v-for="parking in dialogStore.selectedArea.parkingSpaces"
+                                :key="parking.guid"
+                                @click="dialogStore.selectedParkingSpace = parking"
+                            >
+                                {{ parking.number }}
+                            </div>
+                        </div>
+
+                        <div class="parking-info">
+                            <div class="parking-space-info">
+                                <div>Number: {{ dialogStore.selectedParkingSpace?.number }}</div>
+                                <div>Vehicle: {{ dialogStore.selectedParkingSpace?.vehicle?.registration || "Unoccupied" }}</div>
+                            </div>
+                            <div class="actions">
+                                <ButtonComponent
+                                    :label="dialogStore.selectedParkingSpace?.vehicle ? 'Unpark' : 'Park'"
+                                    :callback="togglePark"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -160,6 +175,19 @@
         await ppCLient.zoneAPI.addArea(dialogStore.selectedZone!.guid, newAreaData.value);
         dialogStore.closeDialog();
         await store.requestZones();
+    }
+
+    async function togglePark() {
+
+        if (!dialogStore.selectedParkingSpace || !store.selectedVehicle) {
+            return;
+        }
+
+        dialogStore.selectedParkingSpace?.vehicle
+            ? await ppCLient.vehicleApi.unpark(dialogStore.selectedParkingSpace.guid)
+            : await ppCLient.vehicleApi.park(store.selectedVehicle.guid, dialogStore.selectedParkingSpace.guid);
+
+        store.requestZones();
     }
 
     watch(
@@ -256,45 +284,59 @@
                 }
             }
 
-            .parking-spaces {
-                display: grid;
-                grid-template-columns: repeat(8, 1fr);
-                gap: 20px;
+            .parking {
+                display: flex;
+                .parking-spaces {
 
-                overflow-y: auto;
+                    flex-grow: 1;
+                    display: grid;
+                    grid-template-columns: repeat(6, 1fr);
+                    gap: 20px;
 
-                padding: 20px;
+                    overflow-y: auto;
 
-                .example::-webkit-scrollbar {
-                    display: none;
+                    padding: 20px;
+
+                    .example::-webkit-scrollbar {
+                        display: none;
+                    }
+
+                    .parking-space {
+                        height: 100px;
+                        width: 100%;
+
+                        outline: 3px solid white;
+                        color: white;
+
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+
+                        font-size: 2rem;
+
+                        cursor: pointer;
+                        user-select: none;
+
+                        &.selected {
+                            outline: 3px solid #ff00ff;
+                        }
+
+                        &.free {
+                            background-color: #006900;
+                        }
+                        &.occupied {
+                            background-color: #690000;
+                        }
+                    }
                 }
 
-                .parking-space {
-                    height: 100px;
-                    width: 100%;
+                .parking-info {
+                    flex-shrink: 0;
 
-                    outline: 3px solid white;
+                    padding: 20px;
+
                     color: white;
 
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-
-                    font-size: 2rem;
-
-                    cursor: pointer;
-                    user-select: none;
-
-                    &.selected {
-                        outline: 3px solid #ff00ff;
-                    }
-
-                    &.free {
-                        background-color: #006900;
-                    }
-                    &.occupied {
-                        background-color: #690000;
-                    }
                 }
             }
         }

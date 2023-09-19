@@ -2,6 +2,16 @@
     <div id="layout">
         <nav>
             <div>{{ store.user ? store.user.email : "logged out" }}</div>
+            <div class="filler"></div>
+            <select v-model="store.selectedVehicle">
+                <option
+                    v-for="vehicle in store.user?.vehicles"
+                    :key="vehicle.guid"
+                    :value="vehicle"
+                >
+                    {{ vehicle.registration }}
+                </option>
+            </select>
             <AvatarComponent />
         </nav>
         <slot></slot>
@@ -30,7 +40,9 @@
             height: 4rem;
 
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
         }
     }
 </style>

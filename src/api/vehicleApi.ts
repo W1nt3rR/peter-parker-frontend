@@ -27,16 +27,16 @@ export default class vehiclepi {
         });
     }
 
-    async parkVehicle(vehicleGUID: string, parkingSpaceGUID: string) {
+    async park(vehicleGUID: string, parkingSpaceGUID: string) {
         await this.axios.post("/Vehicle/ParkVehicle", {
             VehicleGUID: vehicleGUID,
             ParkingSpaceGUID: parkingSpaceGUID,
         });
     }
 
-    async unparkVehicle(vehicleGUID: string) {
+    async unpark(parkingSpaceGUID: string) {
         await this.axios.post("/Vehicle/UnparkVehicle", {
-            VehicleGUID: vehicleGUID,
+            ParkingSpaceGUID: parkingSpaceGUID,
         });
     }
 }

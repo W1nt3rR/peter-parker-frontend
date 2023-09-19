@@ -64,10 +64,11 @@
 <style scoped lang="scss">
     #avatar {
         position: relative;
+        height: 100%;
 
         .avatar {
-            width: 100%;
             height: 100%;
+            aspect-ratio: 1;
 
             border: 1px solid #333;
             border-radius: 50%;

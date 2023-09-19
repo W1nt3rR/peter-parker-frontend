@@ -1,4 +1,5 @@
 import { type AxiosInstance } from "axios";
+import type { IVehicleData } from "./vehicleApi";
 
 export enum EZoneColors {
     ZONE_COLOR = "#FF0000",
@@ -32,7 +33,7 @@ export interface IAreaData {
 
 export interface IParkingSpaceData {
     guid: string;
-    vehicle: object;
+    vehicle: IVehicleData | null;
     number: number;
 }
 

@@ -1,14 +1,17 @@
-import { ref, computed } from "vue";
+import { ref, computed, watch } from "vue";
 import { defineStore } from "pinia";
 import type { IUserData } from "@/api/authApi";
 import ppCLient from "@/ppClient";
 import type { IZoneData } from "@/api/ZoneApi";
 import { type Map } from "leaflet";
+import type { IVehicleData } from "@/api/vehicleApi";
 
 const useStore = defineStore("store", () => {
     // Data
     const user = ref<IUserData | null>(null);
     const userDataFromToken = ref<any>(null);
+
+    const selectedVehicle = ref<IVehicleData | null>(null);
 
     const map = ref<Map | null>(null);
 
@@ -62,9 +65,14 @@ const useStore = defineStore("store", () => {
         zones.value = await ppCLient.zoneAPI.all();
     }
 
+    watch(user, (newValue, oldValue) => {
+        selectedVehicle.value = newValue?.vehicles[0];
+    })
+
     return {
         user,
         userDataFromToken,
+        selectedVehicle,
         map,
         zones,
         drawing,

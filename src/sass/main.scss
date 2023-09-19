@@ -12,6 +12,10 @@ body {
     position: relative;
 }
 
+.filler {
+    flex-grow: 1;
+}
+
 // Global vue transitions
 .v-enter-from,
 .v-leave-to {
