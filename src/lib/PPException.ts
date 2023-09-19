@@ -8,14 +8,19 @@ export enum EErrors {
     SERVER_NOT_AVAILABLE = "Server not available",
 }
 
+export interface IBackendError {
+    Message: string;
+    Success: boolean;
+}
+
 export default class PPException {
     error: any;
-    backendErrorMessage: string;
+    backendErrorObj: IBackendError | null;
     message: string;
 
     constructor(error: any, message: EErrors) {
         this.error = error;
-        this.backendErrorMessage = error.response.data;
+        this.backendErrorObj = error?.response?.data;
         this.message = message;
 
         if (config.environment === EEnvironment.DEV) {
@@ -24,6 +29,6 @@ export default class PPException {
     }
 
     printError() {
-        console.log(this.message, this.backendErrorMessage, this.error);
+        console.log(this.message, this.backendErrorObj, this.error);
     }
 }
