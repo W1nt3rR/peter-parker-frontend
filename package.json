@@ -19,6 +19,7 @@
     "axios-auth-refresh": "^3.3.6",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^3.1.2",
+    "maska": "^2.1.10",
     "pinia": "^2.1.6",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4"
