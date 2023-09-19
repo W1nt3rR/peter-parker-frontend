@@ -212,7 +212,7 @@
         display: flex;
         flex-direction: column;
 
-        height: 500px;
+        height: 550px;
         width: 800px;
 
         h1 {
