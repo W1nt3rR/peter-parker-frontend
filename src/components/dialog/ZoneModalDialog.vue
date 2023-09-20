@@ -107,6 +107,9 @@
                                     :callback="togglePark"
                                 />
                             </div>
+                            <div class="error" v-if="errorMessage">
+                                {{ errorMessage }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -148,6 +151,7 @@
     const dialogStore = useDialogStore();
     const store = useStore();
 
+    const errorMessage = ref<string | null>();
     const addingNewArea = ref<boolean>(false);
     const newAreaData = ref<IAddAreaData>({
         name: "",
@@ -178,15 +182,22 @@
     }
 
     async function togglePark() {
+        errorMessage.value = null;
+
         if (!dialogStore.selectedParkingSpace || !store.selectedVehicle) {
             return;
         }
 
-        console.log("parking space", dialogStore.selectedParkingSpace);
-
-        dialogStore.selectedParkingSpace?.vehicle
-            ? await ppCLient.vehicleApi.unpark(dialogStore.selectedParkingSpace.guid)
-            : await ppCLient.vehicleApi.park(store.selectedVehicle.guid, dialogStore.selectedParkingSpace.guid);
+        if (dialogStore.selectedParkingSpace?.vehicle) {
+            await ppCLient.vehicleApi.unpark(dialogStore.selectedParkingSpace.guid);
+        } else {
+            try {
+                await ppCLient.vehicleApi.park(store.selectedVehicle.guid, dialogStore.selectedParkingSpace.guid);
+            } catch (error) {
+                console.log(error);
+                errorMessage.value = "Vehicle already parked";
+            }
+        }
 
         await store.requestZones();
 
