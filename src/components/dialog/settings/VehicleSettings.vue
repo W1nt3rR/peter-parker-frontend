@@ -39,7 +39,7 @@
     import useStore from "@/stores/store";
 
     // Components
-    import InputComponent from "@/components/InputComponent.vue";
+    import InputComponent from "@/components/input/InputComponent.vue";
     import ButtonComponent from "@/components/button/ButtonComponent.vue";
     import { EButtonType } from "@/components/button/ButtonDefinitions";
 

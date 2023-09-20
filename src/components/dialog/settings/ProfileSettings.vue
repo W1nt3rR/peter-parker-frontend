@@ -17,10 +17,12 @@
             <InputComponent
                 label="Password"
                 v-model="password"
+                :type="EInputTypes.PASSWORD"
             />
             <InputComponent
                 label="Confirm password"
                 v-model="confirmPassword"
+                :type="EInputTypes.PASSWORD"
             />
         </div>
 
@@ -38,9 +40,10 @@
     import useStore from "@/stores/store";
 
     // Components
-    import InputComponent from "@/components/InputComponent.vue";
+    import InputComponent from "@/components/input/InputComponent.vue";
     import ppCLient from "@/ppClient";
     import ButtonComponent from "@/components/button/ButtonComponent.vue";
+import { EInputTypes } from "@/components/input/InputDefinitions";
 
     const store = useStore();
 

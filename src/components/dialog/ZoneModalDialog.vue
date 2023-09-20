@@ -144,7 +144,7 @@
     // Components
     import ButtonComponent from "../button/ButtonComponent.vue";
     import { EButtonType } from "../button/ButtonDefinitions";
-    import InputComponent from "../InputComponent.vue";
+    import InputComponent from "../input/InputComponent.vue";
     import SelectButtons from "../SelectButtons.vue";
     import DialogBox from "./DialogBox.vue";
 

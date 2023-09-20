@@ -2,7 +2,7 @@
     <div class="input-component">
         <label>{{ label }}</label>
         <input
-            type="text"
+            :type="type"
             v-model="modelValue"
             :placeholder="placeholder"
             :disabled="disabled"
@@ -14,12 +14,14 @@
 
 <script setup lang="ts">
     import { vMaska } from "maska";
+    import { EInputTypes } from "./InputDefinitions";
 
     // Interfaces
     interface Props {
         label: string;
         placeholder?: string;
         disabled?: boolean;
+        type: EInputTypes;
         maska?: string;
     }
 
@@ -27,7 +29,9 @@
     const modelValue = defineModel<string>();
 
     // Props
-    defineProps<Props>();
+    withDefaults(defineProps<Props>(), {
+        type: EInputTypes.TEXT,
+    });
 </script>
 
 <style scoped lang="scss">

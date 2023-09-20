@@ -9,6 +9,7 @@
             <InputComponent
                 label="Password"
                 v-model="password"
+                :type="EInputTypes.PASSWORD"
             />
             <ButtonComponent
                 label="Login"
@@ -38,9 +39,10 @@
 
     // Components
     import DialogBox from "./DialogBox.vue";
-    import InputComponent from "@/components/InputComponent.vue";
+    import InputComponent from "@/components/input/InputComponent.vue";
     import ButtonComponent from "@/components/button/ButtonComponent.vue";
     import { EButtonType } from "@/components/button/ButtonDefinitions";
+import { EInputTypes } from "../input/InputDefinitions";
 
     const dialogStore = useDialogStore();
     const store = useStore();
