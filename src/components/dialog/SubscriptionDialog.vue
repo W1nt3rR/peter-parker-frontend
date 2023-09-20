@@ -25,9 +25,7 @@
                 <h1>Subscription</h1>
 
                 <template v-if="store.user?.subscription">
-                    <div class="expiry">
-                        Your subscription expires on {{ new Date(store.user.subscription.expiration).toLocaleString() }}
-                    </div>
+                    <div class="expiry">Your subscription expires on {{ new Date(store.user.subscription.expiration).toLocaleString() }}</div>
                     <ButtonComponent
                         label="Unsubscribe"
                         :callback="unsubscribe"
@@ -54,6 +52,39 @@
                 v-if="activeTab === ESubscriptionTabs.PASSES"
             >
                 <h1>Passes</h1>
+
+                <div class="zones-select">
+                    <div
+                        class="zone-item"
+                        v-for="zone in store.zones"
+                        :key="zone.guid"
+                        @click="toggleSelectedZone(zone)"
+                    >
+                        <div class="name">
+                            {{ zone.name }}
+                        </div>
+                        <div
+                            class="checkmark"
+                            v-if="selectedZones.includes(zone.guid)"
+                        >
+                            &#10004;
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <input
+                        type="number"
+                        v-model="hours"
+                    />
+                    <ButtonComponent
+                        label="Buy Pass"
+                        :callback="buyPass"
+                    />
+                    <div class="price">
+                        {{ passPrice }}
+                    </div>
+                </div>
             </div>
         </div>
     </DialogBox>
@@ -63,6 +94,7 @@
     import { computed, onMounted, ref } from "vue";
     import useStore from "@/stores/store";
     import ppCLient from "@/ppClient";
+    import type { IZoneData } from "@/api/ZoneApi";
 
     // Components
     import DialogBox from "./DialogBox.vue";
@@ -93,10 +125,42 @@
     const loading = ref(false);
     const prices = ref<IPrice | null>(null);
 
+    const selectedZones = ref<Array<string>>([]);
+    const hours = ref(1);
+
     const selectedPrice = computed(() => {
         if (!prices.value) return null;
         return prices.value[selectedPeriod.value];
     });
+
+    const passPrice = computed(() => {
+        if (!selectedZones.value.length) return 0;
+
+        let price = 0;
+
+        selectedZones.value.forEach((zoneGUID) => {
+            const zone = store.zones.find((z) => z.guid === zoneGUID);
+            price += zone!.hourlyRate * hours.value;
+        });
+
+        if (selectedZones.value.length > 6) {
+            price *= 0.4;
+        } else {
+            price *= 1 - 0.1 * (selectedZones.value.length - 1);
+            console.log("multipler", 1 - 0.1 * (selectedZones.value.length - 1));
+            
+        }
+
+        return price;
+    });
+
+    function toggleSelectedZone(zone: IZoneData) {
+        if (selectedZones.value.includes(zone.guid)) {
+            selectedZones.value = selectedZones.value.filter((z) => z !== zone.guid);
+        } else {
+            selectedZones.value = [...selectedZones.value, zone.guid];
+        }
+    }
 
     async function subscribe() {
         loading.value = true;
@@ -108,6 +172,10 @@
         loading.value = true;
         ppCLient.subscriptionApi.unsubscribe();
         loading.value = false;
+    }
+
+    async function buyPass() {
+        await ppCLient.passApi.add(hours.value, selectedZones.value);
     }
 
     onMounted(async () => {
@@ -155,10 +223,12 @@
         }
 
         .tab {
-            flex: 1;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+
+            max-height: 85%;
 
             gap: 20px;
 
@@ -177,6 +247,48 @@
 
             .enum-select-buttons {
                 width: unset;
+            }
+
+            .buttons {
+                display: flex;
+                gap: 10px;
+
+                align-items: center;
+
+                input {
+                    width: 50px;
+                }
+            }
+
+            .zones-select {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                width: 100%;
+                height: 100%;
+
+                overflow-y: auto;
+
+                .zone-item {
+                    display: flex;
+                    justify-content: space-between;
+
+                    flex-shrink: 0;
+
+                    width: 100%;
+                    height: 40px;
+
+                    background-color: #690069;
+                    color: white;
+                    padding: 10px;
+                    border-radius: 10px;
+
+                    .checkmark {
+                        height: 100%;
+                        aspect-ratio: 1;
+                    }
+                }
             }
         }
     }

@@ -18,6 +18,7 @@ export interface IZoneData {
     guid: string;
     geoJSON: object;
     name: string;
+    hourlyRate: number;
     parkingAreas: Array<IAreaData>;
 }
 
@@ -69,8 +70,9 @@ export default class ZoneApi {
         return zones;
     }
 
-    async create(geoJson: object) {
+    async create(geoJson: object, hourlyRate: number = 10) {
         await this.axios.post("/Zone/Add", {
+            HourlyRate: hourlyRate,
             GeoJSON: JSON.stringify(geoJson),
         });
     }

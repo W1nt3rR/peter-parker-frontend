@@ -7,6 +7,7 @@ export enum EErrors {
     NO_REFRESH_TOKEN = "No refresh token",
     SERVER_NOT_AVAILABLE = "Server not available",
     SUBSCRIPTION_FAILED = "Subscription failed",
+    PASS_ERROR = "PASS error",
 }
 
 export interface IBackendError {
