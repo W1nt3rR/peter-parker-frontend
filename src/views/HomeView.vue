@@ -48,11 +48,9 @@
 
                 areaLayer.on("click", (e: MouseEvent) => {
                     console.log(area.name, e);
-                    dialogStore.openZoneDialog(zone, e, area); // to imlement 
+                    dialogStore.openZoneDialog(zone, e, area); // to imlement
                 });
             });
-
-            console.log("zone", zone);
 
             zoneLayer.on("click", (e: MouseEvent) => {
                 console.log(zone.name, e);

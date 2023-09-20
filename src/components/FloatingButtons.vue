@@ -27,7 +27,6 @@
 
     const store = useStore();
     const dialogStore = useDialogStore();
-    
 </script>
 
 <style scoped lang="scss">

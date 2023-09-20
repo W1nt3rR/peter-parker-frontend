@@ -9,6 +9,7 @@ export enum EDialogs {
     REGISTER = "register",
     ZONE = "zone",
     SETTINGS = "settings",
+    SUBSCRIPTION = "subscription",
 }
 
 const useDialogStore = defineStore("dialogStore", () => {
@@ -50,6 +51,10 @@ const useDialogStore = defineStore("dialogStore", () => {
         openDialog(EDialogs.SETTINGS);
     }
 
+    function openSubscriptionDialog() {
+        openDialog(EDialogs.SUBSCRIPTION);
+    }
+
     async function toggleEditingZone(cancel: boolean = false) {
         zoneEditing.value = !zoneEditing.value;
         selectedZonePolygon.value.layer.pm.toggleEdit();
@@ -78,6 +83,7 @@ const useDialogStore = defineStore("dialogStore", () => {
         closeDialog,
         openZoneDialog,
         openSettingsDialog,
+        openSubscriptionDialog,
         toggleEditingZone,
     };
 });

@@ -25,6 +25,12 @@
                 </div>
                 <div
                     class="dropdown-item"
+                    @click="dialogStore.openSubscriptionDialog"
+                >
+                    Subscription and Passes
+                </div>
+                <div
+                    class="dropdown-item"
                     @click="logout"
                 >
                     Logout
@@ -94,7 +100,7 @@
 
             border-radius: 10px;
 
-            width: 10rem;
+            width: 200px;
 
             background-color: #333;
             color: #fff;

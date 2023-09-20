@@ -5,7 +5,10 @@
     >
         <button @click="executeCallback">
             <Transition>
-                <div class="loader-container" v-if="loading">
+                <div
+                    class="loader-container"
+                    v-if="loading"
+                >
                     <Loader />
                 </div>
             </Transition>
@@ -45,7 +48,6 @@
         flex-shrink: 0;
 
         button {
-
             display: flex;
             align-items: center;
 

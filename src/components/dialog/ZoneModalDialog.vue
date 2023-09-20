@@ -132,7 +132,7 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, watch } from "vue";
+    import { onMounted, ref, watch } from "vue";
     import ppCLient from "@/ppClient";
     import useDialogStore from "@/stores/dialogStore";
     import useStore from "@/stores/store";
@@ -178,31 +178,58 @@
     }
 
     async function togglePark() {
-
         if (!dialogStore.selectedParkingSpace || !store.selectedVehicle) {
             return;
         }
+
+        console.log("parking space", dialogStore.selectedParkingSpace);
 
         dialogStore.selectedParkingSpace?.vehicle
             ? await ppCLient.vehicleApi.unpark(dialogStore.selectedParkingSpace.guid)
             : await ppCLient.vehicleApi.park(store.selectedVehicle.guid, dialogStore.selectedParkingSpace.guid);
 
-        store.requestZones();
+        await store.requestZones();
+
+        // Update selected zone, area and parking space
+        dialogStore.selectedZone = store.zones.find((z) => z.guid === dialogStore.selectedZone?.guid) || null;
+        dialogStore.selectedArea = dialogStore.selectedZone?.parkingAreas.find((a) => a.guid === dialogStore.selectedArea?.guid) || null;
+        console.log("parking space", dialogStore.selectedParkingSpace);
+
+        dialogStore.selectedParkingSpace = dialogStore.selectedArea?.parkingSpaces.find((p) => p.guid === dialogStore.selectedParkingSpace?.guid) || null;
+        console.log("parking space", dialogStore.selectedParkingSpace);
+    }
+
+    function preselect() {
+        if (!dialogStore.selectedArea) {
+            dialogStore.selectedArea = dialogStore.selectedZone?.parkingAreas[0] || null;
+        }
+
+        if (dialogStore.selectedParkingSpace) {
+            if (dialogStore.selectedArea?.parkingSpaces.find((p) => p.guid === dialogStore.selectedParkingSpace?.guid)) {
+                return;
+            }
+        }
+
+        // find lowerst parking space with lowest number and vehicle is null in parking spaces
+        const parkingSpaces = dialogStore.selectedArea?.parkingSpaces.filter((p) => p.vehicle === null);
+        const lowestParkingSpace = parkingSpaces?.reduce((prev, curr) => {
+            return prev.number < curr.number ? prev : curr;
+        });
+        dialogStore.selectedParkingSpace = lowestParkingSpace || null;
     }
 
     watch(
         () => dialogStore.selectedArea,
         (newValue, oldValue) => {
-            // find lowerst parking space with lowest number and vehicle is null in parking spaces
             if (newValue) {
-                const parkingSpaces = newValue.parkingSpaces.filter((p) => p.vehicle === null);
-                const lowestParkingSpace = parkingSpaces.reduce((prev, curr) => {
-                    return prev.number < curr.number ? prev : curr;
-                });
-                dialogStore.selectedParkingSpace = lowestParkingSpace;
+                preselect();
             }
         }
     );
+
+    onMounted(async () => {
+        preselect();
+    });
 </script>
 
 <style lang="scss" scoped>
@@ -287,7 +314,6 @@
             .parking {
                 display: flex;
                 .parking-spaces {
-
                     flex-grow: 1;
                     display: grid;
                     grid-template-columns: repeat(6, 1fr);
@@ -332,11 +358,11 @@
 
                 .parking-info {
                     flex-shrink: 0;
+                    width: 200px;
 
                     padding: 20px;
 
                     color: white;
-
                 }
             }
         }

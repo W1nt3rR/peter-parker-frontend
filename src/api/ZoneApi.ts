@@ -63,7 +63,7 @@ export default class ZoneApi {
 
             zone.parkingAreas.forEach((area: any) => {
                 area.geoJSON = JSON.parse(area.geoJSON);
-            })
+            });
         });
 
         return zones;
@@ -87,7 +87,7 @@ export default class ZoneApi {
         await this.axios.delete("/Zone/Delete", {
             data: {
                 guid: guid,
-            }
+            },
         });
     }
 

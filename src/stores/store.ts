@@ -21,7 +21,7 @@ const useStore = defineStore("store", () => {
     // Computed
     const userClaims = computed(() => {
         return userDataFromToken.value?.claims;
-    })
+    });
 
     // Functions
 
@@ -46,7 +46,7 @@ const useStore = defineStore("store", () => {
                 const geojson = e.layer.toGeoJSON();
                 resolve(geojson.geometry);
                 disableDraw();
-            })
+            });
         });
     }
 
@@ -58,7 +58,7 @@ const useStore = defineStore("store", () => {
             await ppCLient.zoneAPI.create(geojson.geometry as any);
             disableDraw();
             await requestZones();
-        })
+        });
     }
 
     async function requestZones() {
@@ -68,7 +68,7 @@ const useStore = defineStore("store", () => {
     watch(user, (newValue, oldValue) => {
         if (!newValue) return;
         selectedVehicle.value = newValue.vehicles[0];
-    })
+    });
 
     return {
         user,

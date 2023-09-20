@@ -23,7 +23,7 @@ export default class vehiclepi {
         await this.axios.delete("/Vehicle/DeleteVehicle", {
             data: {
                 Registration: registration,
-            }
+            },
         });
     }
 

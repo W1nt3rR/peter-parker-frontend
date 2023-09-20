@@ -12,6 +12,10 @@
                 @click.stop
                 v-if="dialogStore.dialogType === EDialogs.SETTINGS"
             />
+            <SubscriptionDialog
+                @click.stop
+                v-if="dialogStore.dialogType === EDialogs.SUBSCRIPTION"
+            />
         </template>
     </DialogContainer>
     <FloatingButtons />
@@ -28,6 +32,7 @@
     import SettingsDialog from "./components/dialog/settings/SettingsDialog.vue";
     import LoginDialog from "./components/dialog/LoginDialog.vue";
     import RegisterDialog from "./components/dialog/RegisterDialog.vue";
+    import SubscriptionDialog from "./components/dialog/SubscriptionDialog.vue";
 
     const dialogStore = useDialogStore();
     const store = useStore();
