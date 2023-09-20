@@ -25,7 +25,9 @@
                 <h1>Subscription</h1>
 
                 <template v-if="store.user?.subscription">
-                    {{ store.user.subscription }}
+                    <div class="expiry">
+                        Your subscription expires on {{ new Date(store.user.subscription.expiration).toLocaleString() }}
+                    </div>
                     <ButtonComponent
                         label="Unsubscribe"
                         :callback="unsubscribe"
@@ -161,6 +163,10 @@
             gap: 20px;
 
             h1 {
+                color: white;
+            }
+
+            .expiry {
                 color: white;
             }
 

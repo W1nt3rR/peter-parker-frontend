@@ -11,9 +11,16 @@ export interface IUserData {
     firstName: string;
     lastName: string;
     homeAddress: string;
-    subscription: string;
+    subscription: ISubscriptionData;
     vehicles: Array<IVehicleData>;
     tickets: Array<object>;
+}
+
+export interface ISubscriptionData {
+    guid: string;
+    type: string | null;
+    price: number;
+    expiration: string;
 }
 
 export interface IUserUpdateData {
