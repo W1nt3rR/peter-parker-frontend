@@ -164,13 +164,15 @@
 
     async function subscribe() {
         loading.value = true;
-        ppCLient.subscriptionApi.subscribe(selectedPeriod.value);
+        await ppCLient.subscriptionApi.subscribe(selectedPeriod.value);
+        await ppCLient.authAPI.requestUserData();
         loading.value = false;
     }
 
     async function unsubscribe() {
         loading.value = true;
-        ppCLient.subscriptionApi.unsubscribe();
+        await ppCLient.subscriptionApi.unsubscribe();
+        await ppCLient.authAPI.requestUserData();
         loading.value = false;
     }
 
