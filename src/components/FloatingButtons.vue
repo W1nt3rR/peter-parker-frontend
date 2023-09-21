@@ -1,20 +1,22 @@
 <template>
     <div class="floating-buttons">
-        <ButtonComponent
-            v-if="!dialogStore.zoneEditing"
-            :label="store.drawing ? 'Cancel' : 'Add Zone'"
-            :callback="store.drawing ? store.disableDraw : store.drawZone"
-        />
-        <ButtonComponent
-            v-if="dialogStore.zoneEditing"
-            label="Cancel"
-            :callback="() => dialogStore.toggleEditingZone(true)"
-        />
-        <ButtonComponent
-            v-if="dialogStore.zoneEditing"
-            label="Finish"
-            :callback="dialogStore.toggleEditingZone"
-        />
+        <template v-if="store.isAdmin">
+            <ButtonComponent
+                v-if="!dialogStore.zoneEditing"
+                :label="store.drawing ? 'Cancel' : 'Add Zone'"
+                :callback="store.drawing ? store.disableDraw : store.drawZone"
+            />
+            <ButtonComponent
+                v-if="dialogStore.zoneEditing"
+                label="Cancel"
+                :callback="() => dialogStore.toggleEditingZone(true)"
+            />
+            <ButtonComponent
+                v-if="dialogStore.zoneEditing"
+                label="Finish"
+                :callback="dialogStore.toggleEditingZone"
+            />
+        </template>
     </div>
 </template>
 

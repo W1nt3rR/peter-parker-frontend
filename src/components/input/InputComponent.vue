@@ -18,7 +18,7 @@
 
     // Interfaces
     interface Props {
-        label: string;
+        label?: string;
         placeholder?: string;
         disabled?: boolean;
         type?: EInputTypes;

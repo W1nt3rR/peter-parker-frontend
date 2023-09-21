@@ -8,6 +8,7 @@ export enum EErrors {
     SERVER_NOT_AVAILABLE = "Server not available",
     SUBSCRIPTION_FAILED = "Subscription failed",
     PASS_ERROR = "PASS error",
+    TICKET_CREATE_FAILED = "Ticket create failed",
 }
 
 export interface IBackendError {

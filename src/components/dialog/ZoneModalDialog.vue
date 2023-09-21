@@ -107,7 +107,30 @@
                                     :callback="togglePark"
                                 />
                             </div>
-                            <div class="error" v-if="errorMessage">
+                            <div
+                                class="inspector"
+                                v-if="store.isInspector"
+                            >
+                                <InputComponent
+                                    label="Ticket Reason"
+                                    placeholder="Ticket Reason"
+                                    v-model="ticketReason"
+                                />
+                                <ButtonComponent
+                                    label="Fine vehicle"
+                                    :callback="fineVehicle"
+                                />
+                                <div
+                                    class="message"
+                                    v-if="fineMessage"
+                                >
+                                    {{ fineMessage }}
+                                </div>
+                            </div>
+                            <div
+                                class="error"
+                                v-if="errorMessage"
+                            >
                                 {{ errorMessage }}
                             </div>
                         </div>
@@ -115,19 +138,21 @@
                 </div>
 
                 <div class="buttons">
-                    <ButtonComponent
-                        label="Delete"
-                        :type="EButtonType.DANGER"
-                        :callback="deleteZone"
-                    />
-                    <ButtonComponent
-                        label="Edit"
-                        :callback="dialogStore.toggleEditingZone"
-                    />
-                    <ButtonComponent
-                        label="Add area"
-                        :callback="() => (addingNewArea = true)"
-                    />
+                    <template v-if="store.isAdmin">
+                        <ButtonComponent
+                            label="Delete"
+                            :type="EButtonType.DANGER"
+                            :callback="deleteZone"
+                        />
+                        <ButtonComponent
+                            label="Edit"
+                            :callback="dialogStore.toggleEditingZone"
+                        />
+                        <ButtonComponent
+                            label="Add area"
+                            :callback="() => (addingNewArea = true)"
+                        />
+                    </template>
                 </div>
             </template>
         </div>
@@ -151,6 +176,10 @@
     const dialogStore = useDialogStore();
     const store = useStore();
 
+    const loadingFineVehicle = ref<boolean>(false);
+
+    const fineMessage = ref<string | null>();
+    const ticketReason = ref<string>("");
     const errorMessage = ref<string | null>();
     const addingNewArea = ref<boolean>(false);
     const newAreaData = ref<IAddAreaData>({
@@ -163,6 +192,17 @@
     });
 
     // Functions
+
+    async function fineVehicle() {
+        fineMessage.value = null;
+        loadingFineVehicle.value = true;
+        fineMessage.value = await ppCLient.ticketApi.create({
+            ParkingSpaceGuid: dialogStore.selectedParkingSpace!.guid,
+            ZoneGuid: dialogStore.selectedZone!.guid,
+            IssueReason: ticketReason.value,
+        });
+        loadingFineVehicle.value = false;
+    }
 
     async function deleteZone() {
         await ppCLient.zoneAPI.delete(dialogStore.selectedZone!.guid);

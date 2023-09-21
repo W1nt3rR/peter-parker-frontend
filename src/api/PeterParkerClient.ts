@@ -10,6 +10,7 @@ import ZoneApi from "./ZoneApi";
 import VehicleApi from "./vehicleApi";
 import SubscriptionApi from "./SubscriptionApi";
 import PassApi from "./PassApi";
+import TicketApi from "./TicketApi";
 
 export default class PeterParkerClient {
     axios: AxiosInstance;
@@ -19,6 +20,7 @@ export default class PeterParkerClient {
     vehicleApi: VehicleApi;
     subscriptionApi: SubscriptionApi;
     passApi: PassApi;
+    ticketApi: TicketApi;
 
     constructor() {
         this.axios = axiosInstance;
@@ -28,6 +30,7 @@ export default class PeterParkerClient {
         this.vehicleApi = new VehicleApi(this.axios);
         this.subscriptionApi = new SubscriptionApi(this.axios);
         this.passApi = new PassApi(this.axios);
+        this.ticketApi = new TicketApi(this.axios);
 
         createAuthRefreshInterceptor(
             this.axios,

@@ -2,6 +2,9 @@
     <div id="layout">
         <nav>
             <div>{{ store.user ? store.user.email : "logged out" }}</div>
+            <div>{{ store.userClaims }}</div>
+            <div>{{ store.isAdmin }}</div>
+            <div>{{ store.isInspector }}</div>
             <div class="filler"></div>
             <select v-model="store.selectedVehicle">
                 <option
