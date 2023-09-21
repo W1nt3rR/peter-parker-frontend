@@ -19,8 +19,20 @@ const useStore = defineStore("store", () => {
     const drawing = ref(false);
 
     // Computed
-    const userClaims = computed(() => {
-        return userDataFromToken.value?.claims;
+    const userClaims = computed<string | Array<string>>(() => {
+        return userDataFromToken.value?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+    });
+
+    const isAdmin = computed<boolean>(() => {
+        if (!userClaims.value) return false;
+        if (typeof userClaims.value === "string") return userClaims.value === "Admin";
+        return userClaims.value.includes("Admin");
+    });
+
+    const isInspector = computed<boolean>(() => {
+        if (!userClaims.value) return false;
+        if (typeof userClaims.value === "string") return userClaims.value === "Inspector";
+        return userClaims.value.includes("Inspector");
     });
 
     // Functions
@@ -78,6 +90,8 @@ const useStore = defineStore("store", () => {
         zones,
         drawing,
         userClaims,
+        isAdmin,
+        isInspector,
         enableDraw,
         disableDraw,
         drawZone,
