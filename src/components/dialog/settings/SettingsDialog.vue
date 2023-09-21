@@ -7,6 +7,7 @@
                     v-for="tab in tabs"
                     :key="tab.name"
                     @click="selectedTab = tab.name"
+                    v-show="tab.visible"
                 >
                     {{ tab.name }}
                 </div>
@@ -16,6 +17,7 @@
                 <ProfileSettings v-if="selectedTab === 'Profile'" />
                 <VehicleSettings v-if="selectedTab === 'Vehicles'" />
                 <TicketSettings v-if="selectedTab === 'Tickets'" />
+                <AdminSettings v-if="selectedTab === 'Administration'" />
             </div>
         </div>
     </DialogBox>
@@ -23,22 +25,33 @@
 
 <script setup lang="ts">
     import { ref } from "vue";
+    import useStore from "@/stores/store";
 
     // Components
     import DialogBox from "../DialogBox.vue";
     import ProfileSettings from "./ProfileSettings.vue";
     import VehicleSettings from "./VehicleSettings.vue";
     import TicketSettings from "./TicketSettings.vue";
+    import AdminSettings from "./AdminSettings.vue";
+
+    const store = useStore();
 
     const tabs = ref([
         {
             name: "Profile",
+            visible: true,
         },
         {
             name: "Vehicles",
+            visible: true,
         },
         {
             name: "Tickets",
+            visible: true,
+        },
+        {
+            name: "Administration",
+            visible: store.isAdmin,
         },
     ]);
     const selectedTab = ref<string>(tabs.value[0].name);

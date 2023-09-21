@@ -18,4 +18,16 @@ export default class InspectorApi {
             Email: email,
         });
     }
+
+    async makeAdmin(email: string) {
+        await this.axios.post("/User/MakeAdmin", {
+            Email: email,
+        });
+    }
+
+    async removeAdmin(email: string) {
+        await this.axios.post("/User/RevokeAdmin", {
+            Email: email,
+        });
+    }
 }
