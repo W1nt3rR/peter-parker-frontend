@@ -229,7 +229,11 @@
         }
 
         if (dialogStore.selectedParkingSpace?.vehicle) {
-            await ppCLient.vehicleApi.unpark(dialogStore.selectedParkingSpace.guid);
+            try {
+                await ppCLient.vehicleApi.unpark(dialogStore.selectedParkingSpace.guid);
+            } catch (error:any) {
+                errorMessage.value = error.response.data.Message;
+            }
         } else {
             try {
                 await ppCLient.vehicleApi.park(store.selectedVehicle.guid, dialogStore.selectedParkingSpace.guid);
