@@ -21,7 +21,7 @@
         label: string;
         placeholder?: string;
         disabled?: boolean;
-        type: EInputTypes;
+        type?: EInputTypes;
         maska?: string;
     }
 
