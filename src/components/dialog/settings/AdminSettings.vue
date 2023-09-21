@@ -48,6 +48,10 @@
                 :loading="revokeAdminLoading"
             />
         </div>
+
+        <div class="row" v-if="errorMessage">
+            {{ errorMessage }}
+        </div>
     </div>
 </template>
 
@@ -69,27 +73,49 @@
     const revokeInspectorLoading = ref<boolean>(false);
     const revokeAdminLoading = ref<boolean>(false);
 
+    const errorMessage = ref<any>(null);
+
     async function makeInspector() {
+        errorMessage.value = null;
         makeInspectorLoading.value = true;
-        await ppCLient.inspectorAPI.makeInspector(makeInspectorEmail.value);
+        try {
+            await ppCLient.inspectorAPI.makeInspector(makeInspectorEmail.value);
+        } catch (error) {
+            errorMessage.value = error;            
+        }
         makeInspectorLoading.value = false;
     }
 
     async function revokeInspector() {
+        errorMessage.value = null;
         revokeInspectorLoading.value = true;
-        await ppCLient.inspectorAPI.removeInspector(revokeInspectorEmail.value);
+        try {
+            await ppCLient.inspectorAPI.removeInspector(revokeInspectorEmail.value);
+        } catch (error) {
+            errorMessage.value = error;            
+        }
         revokeInspectorLoading.value = false;
     }
 
     async function makeAdmin() {
+        errorMessage.value = null;
         makeAdminLoading.value = true;
-        await ppCLient.inspectorAPI.makeAdmin(makeAdminEmail.value);
+        try {
+            await ppCLient.inspectorAPI.makeAdmin(makeAdminEmail.value);
+        } catch (error) {
+            errorMessage.value = error;            
+        }
         makeAdminLoading.value = false;
     }
 
     async function revokeAdmin() {
+        errorMessage.value = null;
         revokeAdminLoading.value = true;
-        await ppCLient.inspectorAPI.removeAdmin(revokeAdminEmail.value);
+        try {
+            await ppCLient.inspectorAPI.removeAdmin(revokeAdminEmail.value);
+        } catch (error) {
+            errorMessage.value = error;            
+        }
         revokeAdminLoading.value = false;
     }
 </script>
